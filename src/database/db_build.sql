@@ -4,11 +4,11 @@ DROP TABLE IF EXISTS sitters CASCADE;
 
 CREATE TABLE sitters(
     id SERIAL PRIMARY KEY,
-    sitter_name VARCHAR(100) NOT NULL, 
+    name VARCHAR(100) NOT NULL, 
     starting_hour TIME NOT NULL,
     end_hour TIME NOT NULL,
     cost INTEGER NOT NULL,
-    is_reserved VARCHAR(255)
+    available_date DATE NOT NULL
 );
 
 CREATE TABLE reservation(
@@ -17,12 +17,13 @@ CREATE TABLE reservation(
     reservant_phone VARCHAR(15) NOT NULL,
     starting_hour TIME NOT NULL,
     end_hour TIME NOT NULL,
-    sitter_id INTEGER REFERENCES sitters(id)
+    sitter_id INTEGER REFERENCES sitters(id),
+    is_reserved BOOLEAN
 );
 
 
-INSERT INTO sitters (sitter_name,starting_hour, end_hour, cost, is_reserved) 
-VALUES('Morad Abed', '11:30', '13:00', 1100, 'FALSE');
+INSERT INTO sitters (name,starting_hour, end_hour, cost) 
+VALUES('Morad Abed', '11:30', '13:00', '11:00');
 
 
 INSERT INTO reservation (reservant_full_name, reservant_phone, starting_hour, end_hour,sitter_id) 
