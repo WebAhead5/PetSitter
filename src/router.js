@@ -1,5 +1,4 @@
 
-
 const path = require("path");
 const urlR = require("url")
 const handlers = require("./handlers");
@@ -21,10 +20,17 @@ const router = (request, response) => {
 
     else if(request.method === "GET"){
 
+        if (endPoint === '/reservation' )
+            handlers.getreservationHandler(request, response)
+
 
     }
 
     else if(request.method === "POST"){
+
+        if (endPoint === '/reservation' )
+            handlers.askreservationHandler(request, response)
+
 
     }
 

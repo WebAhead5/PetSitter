@@ -37,7 +37,13 @@ exports.serverErrorHandler = function(response){
 }
 
 
+exports.getreservationHandler = (request, response) => {
 
+}
+
+exports.askreservationHandler = (request, response) => {
+
+}
 
 
 
