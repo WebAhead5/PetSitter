@@ -51,7 +51,6 @@ const deleteReservations = (cb) => {
     })
 }
 
-// const delete
 
 // isInputValid
 

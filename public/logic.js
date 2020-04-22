@@ -71,3 +71,5 @@ function addSitters(name, startingHour, endHour, cost) {
     })
         .catch(err => cb(err));
 }
+
+export default logic;
