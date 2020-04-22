@@ -1,12 +1,13 @@
 {
-  "name": "PetSitter",
+  "name": "pet-sitter",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon src/server.js",
     "start": "NODE_ENV=production node src/server.js",
-    "test": "NODE_ENV=test nodemon testers/**/*.test.js"
+    "test": "NODE_ENV=test nodemon testers/**/*.test.js",
+    "test2": "NODE_ENV=test node src/queries/sittersCRUD.js"
   },
   "repository": {
     "type": "git",

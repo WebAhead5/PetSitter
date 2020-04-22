@@ -11,7 +11,7 @@ const dbConnection = require('../database/db_connection');
 // }
 
 const getAll = cb => {
-    dbConnection.query('SELECT * FROM reservation', (err, res) => {
+    dbConnection.query('SELECT * FROM reservations', (err, res) => {
         if (err) {
             cb(err);
         } else {
@@ -21,7 +21,7 @@ const getAll = cb => {
 }
 
 const reserveSitter = (name, phone, fromHour, toHour, sitterId, cb) => {
-    dbConnection.query('INSERT INTO reservation (reservant_full_name, reservant_phone, starting_hour, end_hour, sitter_id, is_reserved) VALUES ($1, $2, $3, $4, $5)', [name, phone, fromHour, toHour, sitterId],
+    dbConnection.query('INSERT INTO reservations (reservant_full_name, reservant_phone, starting_hour, end_hour, sitter_id, is_reserved) VALUES ($1, $2, $3, $4, $5)', [name, phone, fromHour, toHour, sitterId],
         (err, res) => {
             if (err) {
                 cb(err)
