@@ -69,14 +69,24 @@ exports.askreservationHandler = (request, response) => {
         data += chunk;
     })
 
+    //typeof jsonbj[name] !== string
+    //trim
+
     response.on('end', () => {
         let jsonObj = JSON.from(data);
         reserveSitter(jsonObj, (err, result) => {
-            if (err)
+            if (err) {
                 return exports.badRequestHandler(request, response)
+            } else if (typeof jsonObj.name !== 'string') {
+                return exports.serverErrorHandler(request, response)
+            } else if (typeof jsonObj.phone !== 'number') {
+                return exports.serverErrorHandler(request, response)
+            } else {
 
-            response.writeHead(200, { "content-type": "application/json" })
-            response.end(JSON.stringify(result.rows));
+                response.writeHead(200, { "content-type": "application/json" })
+                response.end(JSON.stringify(result.rows));
+
+            }
         })
     })
 }
