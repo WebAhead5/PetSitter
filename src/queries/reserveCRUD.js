@@ -48,8 +48,8 @@ const reserveSitter = ({ name, phone,startingHr, endHr, sitterId } , cb) => {
 
 // Delete
 
-const deleteReservations = (cb) => {
-    dbConnection.query('DELETE FROM reservations WHERE id = index', (err, res) => {
+const deleteReservations = (index,cb) => {
+    dbConnection.query('DELETE FROM reservations WHERE id = &1',[index], (err, res) => {
         if (err) {
             cb(err)
         } else {
