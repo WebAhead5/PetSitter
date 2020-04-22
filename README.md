@@ -55,6 +55,7 @@ the main code flow:
 
 <br>
 
+
 we even took time to plan and design some the code guidelines for the project, such as:
 
 
@@ -257,4 +258,5 @@ to name a few:
 - not all the team members ended up wotking on their weaker spots
     - if we were to follow out initial planning it could've been achieved. (I also blame the lack of time aad our semi high goals
     
-    
+- some code struggles we had to work out way out of by drawing & planning 
+![](https://i.imgur.com/5Y9BIIV.png)
