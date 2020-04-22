@@ -23,7 +23,7 @@ const router = (request, response) => {
         if (endPoint === '/reservation' )
             handlers.getreservationHandler(request, response)
         else if(endPoint === "/sitters")
-            handlers.getSettersHandler(request,response);
+            handlers.getSittersHandler(request,response);
 
     }
 
@@ -32,7 +32,7 @@ const router = (request, response) => {
         if (endPoint === '/reservation' )
             handlers.askreservationHandler(request, response)
         else if(endPoint === "/sitters")
-            handlers.addSetterHandler(request,response);
+            handlers.addSitterHandler(request,response);
 
     }
 

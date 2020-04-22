@@ -9,7 +9,7 @@ const sittersCRUD = require("./queries/sittersCRUD")
 exports.homeHandler = function(request,response){
 
     let filePath =path.join("./","public","index.html")
-    loadFile(filePath,".html",response);
+    loadFile(filePath,response);
 
 }
 exports.fileHandler = function(request,response){
@@ -20,7 +20,7 @@ exports.fileHandler = function(request,response){
     let filePath = path.join("./","public",endPoint);
     // filePath = path.resolve(baseName,filePath, "./");
 
-    loadFile(filePath, ext,response);
+    loadFile(filePath,response);
 
 }
 
@@ -46,7 +46,7 @@ exports.askreservationHandler = (request, response) => {
 
 }
 
-exports.getSettersHandler = function(request, response) {
+exports.getSittersHandler = function(request, response) {
     sittersCRUD.read((err,result)=>{
 
         if(err)
@@ -57,7 +57,7 @@ exports.getSettersHandler = function(request, response) {
     });
 
 }
-exports.addSetterHandler = function(request, response) {
+exports.addSitterHandler = function(request, response) {
 
     let stream = "";
 
@@ -90,7 +90,7 @@ exports.addSetterHandler = function(request, response) {
 }
 
 
-function loadFile(path, fileExt ,response){
+function loadFile(path ,response){
 
 
     fs.readFile(path, (err,res)=>{
@@ -98,7 +98,7 @@ function loadFile(path, fileExt ,response){
             exports.serverErrorHandler(response);
         }
         else {
-            response.writeHead(200, {'content-type':mime.lookup(fileExt)})
+            response.writeHead(200, {'content-type':mime.lookup(path)})
             response.end(res);
         }
 

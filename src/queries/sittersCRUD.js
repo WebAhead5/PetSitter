@@ -1,7 +1,7 @@
 
 const dbConnection = require("../database/db_connection")
 
-exports.read = function(cb) {
+exports.readAll = function(cb) {
 
     dbConnection.query(`select * from sitters;`,(err,res)=> {
         if(cb) cb(err ,res?res.rows:undefined)
@@ -14,9 +14,4 @@ exports.create =function({name,startingHour,endHour,cost},cb = undefined) {
                   values ($1,$2,$3,$4);`;
     dbConnection.query(sqlC,[name,startingHour,endHour,cost], cb)
 }
-
-
-
-
-
 
