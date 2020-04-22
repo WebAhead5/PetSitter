@@ -1,4 +1,12 @@
-
+function formVerification(){
+    const name = document.getElementById('name');
+    const hoursFrom = document.getElementById('from');
+    const hoursTo = document.getElementById('to');
+    const name = document.getElementById('cost');
+    const phone = document.getElementById('phoneNuber');
+    const form = document.getElementById('form');
+   
+}
 
 function getAllReservations(cb){
     fetch('/reservations')
