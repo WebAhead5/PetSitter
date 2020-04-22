@@ -3,19 +3,15 @@ const fs = require("fs");
 const path = require("path");
 const mime = require("mime-types");
 const urlR = require("url")
-const { getAll,
-    reserveSitter,
-    CountReservations,
-    deleteReservations }
-    = require('../src/queries/reserveCRUD')
+const reserveCRUD = require('../src/queries/reserveCRUD')
 
 const sittersCRUD = require("./queries/sittersCRUD")
 
 exports.homeHandler = function (request, response) {
 
 
-    let filePath =path.join("./","public","index.html")
-    loadFile(filePath,response);
+    let filePath = path.join("./", "public", "index.html")
+    loadFile(filePath, response);
 
 
 }
@@ -27,7 +23,7 @@ exports.fileHandler = function (request, response) {
     let filePath = path.join("./", "public", endPoint);
     // filePath = path.resolve(baseName,filePath, "./");
 
-    loadFile(filePath,response);
+    loadFile(filePath, response);
 
 }
 
@@ -49,12 +45,12 @@ exports.serverErrorHandler = function (response) {
 //the GET method
 // Gets the reservations data from the database
 exports.getreservationHandler = (request, response) => {
-    getAll((err, res) => {
+    reserveCRUD.readAll((err, res) => {
         if (err) {
             exports.serverErrorHandler(response)
         } else {
             response.writeHead(200, { 'Content-Type': 'Application/JSON' });
-            response.end(JSON.stringify(res.rows));
+            response.end(JSON.stringify(res));
         }
     });
 }
@@ -65,38 +61,39 @@ exports.getreservationHandler = (request, response) => {
 //Adds received information to the database
 
 exports.askreservationHandler = (request, response) => {
+   
     let data = '';
 
     request.on('data', chunk => {
         data += chunk;
     })
 
-    //typeof jsonbj[name] !== string
-    //trim
 
     request.on('end', () => {
-        let jsonObj = JSON.from(data);
-        reserveSitter(jsonObj, (err, result) => {
-            if (err) {
-                return exports.badRequestHandler(request, response)
-            } else if (typeof jsonObj.name !== 'string') {
-                return exports.serverErrorHandler(request, response)
-            } else if (typeof jsonObj.phone !== 'number') {
-                return exports.serverErrorHandler(request, response)
-            } else {
+        let jsonObj = JSON.parse(data);
 
-                response.writeHead(200, { "content-type": "application/json" })
-                response.end(JSON.stringify(result.rows));
+        //validate input
+        if(!reserveCRUD.isInputValid(jsonObj)){
+            return exports.badRequestHandler( response)
+        }
 
-            }
+        reserveCRUD.create(jsonObj, (err, result) => {
+            if (err)
+                return exports.badRequestHandler( response)
+
+            //todo redirection
+            response.writeHead(200)
+            response.end();
+
         })
     })
+    
 }
 
-exports.getSittersHandler = function(request, response) {
+exports.getSittersHandler = function (request, response) {
 
     //get params from url
-    let {searchParams} = new urlR.URL( request.url,"http://localhost/")
+    let { searchParams } = new urlR.URL(request.url, "http://localhost/")
 
     //set the read function
     let readFunc = getReadSittersFunc(searchParams);
@@ -104,11 +101,11 @@ exports.getSittersHandler = function(request, response) {
     if(!readFunc)
         return exports.badRequestHandler(response)
 
+
     readFunc((err,result)=>{
 
-        if(err)
-            return exports.serverErrorHandler(response)
-
+        if (err)
+            return exports.serverErrorHandler(request, response);
 
         response.writeHead(200, { "content-type": "application/json" })
         response.end(JSON.stringify(result));
@@ -116,7 +113,7 @@ exports.getSittersHandler = function(request, response) {
 
 }
 
-exports.addSitterHandler = function(request, response) {
+exports.addSitterHandler = function (request, response) {
 
 
     let stream = "";
@@ -127,7 +124,9 @@ exports.addSitterHandler = function(request, response) {
     })
 
     //when all the data is received
+
     request.on("end",  () => {
+
 
         //convert the data to a json file
         let jsonObj = JSON.parse(stream);
@@ -142,7 +141,6 @@ exports.addSitterHandler = function(request, response) {
 
             //todo - redirect user
             response.writeHead(200)
-
             response.end();
 
         });
@@ -153,7 +151,7 @@ exports.addSitterHandler = function(request, response) {
 }
 
 
-function loadFile(path ,response){
+function loadFile(path, response) {
 
 
 
@@ -162,7 +160,7 @@ function loadFile(path ,response){
             exports.serverErrorHandler(response);
         }
         else {
-            response.writeHead(200, {'content-type':mime.lookup(path)})
+            response.writeHead(200, { 'content-type': mime.lookup(path) })
             response.end(res);
         }
 
@@ -204,8 +202,10 @@ function getReadSittersFunc(searchParams) {
         if (!count || !offset)
             return null;
 
+
         if (typeof count !== "number" && typeof offset !== "number")
             return null;
+
 
         return sittersCRUD.read.bind(sittersCRUD,count,offset);
 
