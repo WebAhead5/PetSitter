@@ -260,3 +260,7 @@ to name a few:
     
 - some code struggles we had to work out way out of by drawing & planning 
 ![](https://i.imgur.com/5Y9BIIV.png)
+
+
+
+https://hackmd.io/zTqnvGRaQDSIadxALDIFjQ?both
