@@ -20,10 +20,12 @@ const router = (request, response) => {
 
     else if(request.method === "GET"){
 
-        if (endPoint === '/reservations' )
+        if (endPoint === "/reservations" )
             handlers.getreservationHandler(request, response)
         else if(endPoint === "/sitters")
             handlers.getSittersHandler(request,response);
+        else if(endPoint === "/availableSitters")
+            handlers.getAvailableSitter(request,response)
 
     }
 

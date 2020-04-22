@@ -3,10 +3,12 @@ const fs = require("fs");
 const path = require("path");
 const mime = require("mime-types");
 const urlR = require("url")
-const reserveCRUD = require('../src/queries/reserveCRUD')
+const reserveCRUD = require('../src/queries/reserveCRUD');
+const sittersCRUD = require("./queries/sittersCRUD");
+const getAvailableSitters = require("./queries/GetAvailableSitters");
 
-const sittersCRUD = require("./queries/sittersCRUD")
 
+//------------------------------------------------------------------------------
 exports.homeHandler = function (request, response) {
 
 
@@ -41,6 +43,7 @@ exports.serverErrorHandler = function (response) {
     response.end('<h1>server error</h1>');
 }
 
+//------------------------------------------------------------------------------
 
 //the GET method
 // Gets the reservations data from the database
@@ -49,11 +52,8 @@ exports.getreservationHandler = (request, response) => {
 
 }
 
-
-
 //the POST method
 //Adds received information to the database
-
 exports.askreservationHandler = (request, response) => {
 
     let data = '';
@@ -84,13 +84,14 @@ exports.askreservationHandler = (request, response) => {
 
 }
 
+//------------------------------------------------------------------------------
+
 exports.getSittersHandler = function (request, response) {
 
      getReadFromDbHandler(request, response,sittersCRUD) 
 
 
 }
-
 exports.addSitterHandler = function (request, response) {
 
 
@@ -128,6 +129,34 @@ exports.addSitterHandler = function (request, response) {
 
 }
 
+//------------------------------------------------------------------------------
+
+exports.getAvailableSitter = function (request,response) {
+    //get params from url
+    let { searchParams } = new urlR.URL(request.url, "http://localhost/")
+
+    let paramOptions = ["start","end"]
+    //if the url contains only the params "start" and "end"
+    for (const key of searchParams.keys())
+        if(!paramOptions.includes(key))
+            return exports.badRequestHandler(response);
+
+    //if the params are not duplicated (only show up once)
+    if(searchParams.getAll("start").length !== 1 ||
+        searchParams.getAll("end").length !== 1)
+        return exports.badRequestHandler(response);
+
+
+    getAvailableSitters(searchParams.get("start"),searchParams.get("end"),(err,res)=>{
+        if(err)
+            return exports.serverErrorHandler(response);
+
+        response.writeHead(200,{"content-type":"application.json"});
+        response.end(JSON.stringify(res))
+    })
+}
+
+//------------------------------------------------------------------------------
 
 function loadFile(path, response) {
 
@@ -146,7 +175,6 @@ function loadFile(path, response) {
     })
 
 }
-
 
 
 function getReadFromDbHandler(request, response,crud) {
@@ -171,8 +199,6 @@ function getReadFromDbHandler(request, response,crud) {
     });
 
 }
-
-
 function getReadSittersFunc(searchParams, crud) {
 
     //count the number of params in the url
@@ -216,4 +242,5 @@ function getReadSittersFunc(searchParams, crud) {
 }
 
 
+//------------------------------------------------------------------------------
 
