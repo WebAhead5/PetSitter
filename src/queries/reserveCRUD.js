@@ -1,15 +1,5 @@
 const dbConnection = require('../database/db_connection');
 
-// const getSitters = cb => {
-//     dbConnection.query('SELECT * FROM sitters'), (err, res) => {
-//         if (err) {
-//             return cb(err);
-//         } else {
-//             cb(null, res.rows);
-//         }
-//     }
-// }
-
 
 // Reads all data from reservations table on the database 
 const getAll = cb => {
@@ -25,18 +15,24 @@ const getAll = cb => {
 // Count 
 
 const CountReservations = cb => {
-    dbConnection.query('SELECT COUNT(is_reserved) FROM reservations WHERE is_reserved = true', (err, res)=> {
+    dbConnection.query('SELECT COUNT(is_reserved) FROM reservations WHERE is_reserved = true', (err, res) => {
         if (err) {
             cb(err);
         } else {
-            cb(null, res.rowCount)
+            cb(null, res.rows[0].count)
         }
     })
 }
 
 //Insert new data to reservations table on the database
 
-const reserveSitter = ({name, phone, fromHour, toHour, sitterId}, cb) => {
+const reserveSitter = ({ name, phone, fromHour, toHour, sitterId } , cb) => {
+   
+    // if(!isInputValid(obj))
+    //     return cb(new Error("..."))
+
+    // let { name, phone, fromHour, toHour, sitterId } = obj;
+    
     dbConnection.query('INSERT INTO reservations (reservant_full_name, reservant_phone, starting_hour, end_hour, sitter_id, is_reserved) VALUES ($1, $2, $3, $4, $5)', [name, phone, fromHour, toHour, sitterId],
         (err, res) => {
             if (err) {
@@ -52,8 +48,8 @@ const reserveSitter = ({name, phone, fromHour, toHour, sitterId}, cb) => {
 // Delete
 
 const deleteReservations = (cb) => {
-    dbConnection.query('DELETE FROM reservations WHERE id = index', (err, res)=>{
-        if(err) {
+    dbConnection.query('DELETE FROM reservations WHERE id = index', (err, res) => {
+        if (err) {
             cb(err)
         } else {
             cb(null, res)
@@ -61,12 +57,30 @@ const deleteReservations = (cb) => {
     })
 }
 
-// const delete
+
+// isInputValid
+
+function isInputValid(obj = {}) {
+    if (typeof obj.name !== 'string') {
+        return false;
+    } else if (typeof obj.phone !== 'number') {
+        return false;
+    } else {
+        return true;
+    }
+
+
+}
+
+//added to the handlers.askreserve...
+
+
 
 
 module.exports = {
-    getAll,
-    reserveSitter,
-    CountReservations,
-    deleteReservations
+    readAll: getAll,
+    create: reserveSitter,
+    count: CountReservations,
+    delete: deleteReservations,
+    isInputValid
 }
