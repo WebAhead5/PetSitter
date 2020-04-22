@@ -3,50 +3,55 @@ const fs = require("fs");
 const path = require("path");
 const mime = require("mime-types");
 const urlR = require("url")
-const reserveCRUD = require('../src/queries/reserveCRUD')
+const { getAll,
+    reserveSitter,
+    CountReservations,
+    deleteReservations }
+    = require('../src/queries/reserveCRUD')
 
 const sittersCRUD = require("./queries/sittersCRUD")
 
-exports.homeHandler = function(request,response){
+exports.homeHandler = function (request, response) {
 
-    let filePath =path.join("./","public","index.html")
-    loadFile(filePath,".html",response);
+    let filePath = path.join("./", "public", "index.html")
+    loadFile(filePath, ".html", response);
 
 }
-exports.fileHandler = function(request,response){
+exports.fileHandler = function (request, response) {
 
-    let endPoint = new urlR.URL(request.url ,"http://localhost:3000").pathname
+    let endPoint = new urlR.URL(request.url, "http://localhost:3000").pathname
     let ext = path.extname(endPoint)
 
-    let filePath = path.join("./","public",endPoint);
+    let filePath = path.join("./", "public", endPoint);
     // filePath = path.resolve(baseName,filePath, "./");
 
-    loadFile(filePath, ext,response);
+    loadFile(filePath, ext, response);
 
 }
 
 
-exports.notFoundHandler = function(response){
-    response.writeHead(404, {'content-type': 'text/html'})
+exports.notFoundHandler = function (response) {
+    response.writeHead(404, { 'content-type': 'text/html' })
     response.end('<h1>not found</h1>');
 }
-exports.badRequestHandler = function(response){
-    response.writeHead(400, {'content-type': 'text/html'})
+exports.badRequestHandler = function (response) {
+    response.writeHead(400, { 'content-type': 'text/html' })
     response.end('<h1>bad request</h1>');
 }
-exports.serverErrorHandler = function(response){
-    response.writeHead(502, {'content-type': 'text/html'})
+exports.serverErrorHandler = function (response) {
+    response.writeHead(502, { 'content-type': 'text/html' })
     response.end('<h1>server error</h1>');
 }
 
 
 //the GET method
+// Gets the reservations data from the database
 exports.getreservationHandler = (request, response) => {
-    reserveCRUD.getAll((err, res) => {
+    getAll((err, res) => {
         if (err) {
             exports.serverErrorHandler(response)
         } else {
-            response.writeHead(200, {'Content-Type':'Application/JSON'});
+            response.writeHead(200, { 'Content-Type': 'Application/JSON' });
             response.end(JSON.stringify(res.rows));
         }
     });
@@ -55,24 +60,39 @@ exports.getreservationHandler = (request, response) => {
 
 
 //the POST method
-
+//Adds received information to the database
 
 exports.askreservationHandler = (request, response) => {
+    let data = '';
 
+    response.on('data', chunk => {
+        data += chunk;
+    })
+
+    response.on('end', () => {
+        let jsonObj = JSON.from(data);
+        reserveSitter(jsonObj, (err, result) => {
+            if (err)
+                return exports.badRequestHandler(request, response)
+
+            response.writeHead(200, { "content-type": "application/json" })
+            response.end(JSON.stringify(result.rows));
+        })
+    })
 }
 
-exports.getSettersHandler = function(request, response) {
-    sittersCRUD.read((err,result)=>{
+exports.getSettersHandler = function (request, response) {
+    sittersCRUD.read((err, result) => {
 
-        if(err)
-            exports.serverErrorHandler(request,response)
+        if (err)
+            exports.serverErrorHandler(request, response)
 
-        response.writeHead(200, {"content-type":"application/json"})
+        response.writeHead(200, { "content-type": "application/json" })
         response.end(JSON.stringify(result));
     });
 
 }
-exports.addSetterHandler = function(request, response) {
+exports.addSetterHandler = function (request, response) {
 
     let stream = "";
 
@@ -94,7 +114,7 @@ exports.addSetterHandler = function(request, response) {
             if (err)
                 return exports.badRequestHandler(request, response)
 
-            response.writeHead(200, {"content-type": "application/json"})
+            response.writeHead(200, { "content-type": "application/json" })
             response.end(JSON.stringify(result));
 
         });
@@ -105,15 +125,15 @@ exports.addSetterHandler = function(request, response) {
 }
 
 
-function loadFile(path, fileExt ,response){
+function loadFile(path, fileExt, response) {
 
 
-    fs.readFile(path, (err,res)=>{
-        if(err) {
+    fs.readFile(path, (err, res) => {
+        if (err) {
             exports.serverErrorHandler(response);
         }
         else {
-            response.writeHead(200, {'content-type':mime.lookup(fileExt)})
+            response.writeHead(200, { 'content-type': mime.lookup(fileExt) })
             response.end(res);
         }
 
