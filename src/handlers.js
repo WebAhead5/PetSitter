@@ -96,7 +96,7 @@ exports.getSittersHandler = function (request, response) {
     let { searchParams } = new urlR.URL(request.url, "http://localhost/")
 
     //set the read function
-    let readFunc = getReadSittersFunc(searchParams);
+    let readFunc = getReadSittersFunc(searchParams,sittersCRUD);
 
     if(!readFunc)
         return exports.badRequestHandler(response)
@@ -172,7 +172,7 @@ function loadFile(path, response) {
 
 
 
-function getReadSittersFunc(searchParams) {
+function getReadSittersFunc(searchParams,crud) {
 
     //count the number of params in the url
     let paramCount = 0;
@@ -181,7 +181,7 @@ function getReadSittersFunc(searchParams) {
 
 
     if(paramCount === 0)
-        return sittersCRUD.readAll;
+        return crud.readAll;
 
 
     if(paramCount === 1){
@@ -189,7 +189,7 @@ function getReadSittersFunc(searchParams) {
         if (!count || typeof count !== "number")
             return null;
 
-        return  sittersCRUD.read.bind(sittersCRUD,count,undefined);
+        return  (cb)=> crud.read(count,0,cb)
     }
 
 
@@ -207,7 +207,7 @@ function getReadSittersFunc(searchParams) {
             return null;
 
 
-        return sittersCRUD.read.bind(sittersCRUD,count,offset);
+        return (cb)=> crud.read(count,offset,cb)
 
     }
 
