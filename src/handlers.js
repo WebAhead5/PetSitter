@@ -82,10 +82,8 @@ exports.askreservationHandler = (request, response) => {
             } else if (typeof jsonObj.phone !== 'number') {
                 return exports.serverErrorHandler(request, response)
             } else {
-
                 response.writeHead(200, { "content-type": "application/json" })
                 response.end(JSON.stringify(result.rows));
-
             }
         })
     })
