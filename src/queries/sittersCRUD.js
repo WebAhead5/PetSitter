@@ -35,9 +35,9 @@ exports.delete = function(index,cb){
 }
 
 
-exports.create =function({name,startingHour,endHour,cost},cb) {
+exports.create =function({name,startingHr,endHr,cost},cb) {
     const sqlC = `insert into sitters(name,starting_hour,end_hour,cost) 
                   values ($1,$2,$3,$4);`;
-    dbConnection.query(sqlC,[name,startingHour,endHour,cost], cb)
+    dbConnection.query(sqlC,[name,startingHr,endHr,cost], cb)
 }
 
