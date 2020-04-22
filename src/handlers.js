@@ -50,7 +50,7 @@ exports.getSittersHandler = function(request, response) {
     sittersCRUD.read((err,result)=>{
 
         if(err)
-            exports.serverErrorHandler(request,response)
+            return exports.serverErrorHandler(request,response)
 
         response.writeHead(200, {"content-type":"application/json"})
         response.end(JSON.stringify(result));
@@ -67,10 +67,10 @@ exports.addSitterHandler = function(request, response) {
     })
 
     //when all the data is received
-    response.on("end", chunk => {
+    response.on("end",  () => {
 
         //convert the data to a json file
-        let jsonObj = JSON.from(chunk);
+        let jsonObj = JSON.from(stream);
 
         //add the received data to the database
         sittersCRUD.create(jsonObj, (err, result) => {
@@ -79,6 +79,7 @@ exports.addSitterHandler = function(request, response) {
             if (err)
                 return exports.badRequestHandler(request, response)
 
+            //todo - redirect user
             response.writeHead(200, {"content-type": "application/json"})
             response.end(JSON.stringify(result));
 
