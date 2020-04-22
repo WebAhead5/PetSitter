@@ -8,12 +8,8 @@
 <!--    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">-->
 </head>
 <body>
-    <script src="logic.js"></script>
-    <script src="dom.js"></script>
-    <script src="box.js"></script>
-    
-    <form action="/" class="decor" id="form" style="padding-top: 20%">
-       <h2 style="text-align: center">Sitters' Search Form</h2>
+    <form action="/" class="decor" id="searchForm" style="padding-top: 20%">
+       <h2 style="text-align: center">Search For Sitters</h2>
         <div class="form-left-decoration"></div>
         <div class="form-right-decoration"></div>
         <div class="circle"></div>
@@ -35,8 +31,11 @@
                 <br>
             </div>
             <!-- <textarea placeholder="Message..." rows="5"></textarea> -->
-            <button type="submit" onclick="formVerification()">Submit</button>
+            <button type="submit" id="search">Search</button>
         </div>
     </form>
+    <br><p id="note" style="visibility: hidden"></p>
+    <script src="logic.js"></script>
+    <script src="domData.js"></script>
 </body>
 </html>

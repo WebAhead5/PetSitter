@@ -7,8 +7,8 @@ const toTheBox = {
             box.style.background= `${bg}`;
             box.style.color= `${fntClr}`;
             box.style.border = `1px solid ${fntClr}`;
-            box.style.height="150px";
-            box.style.width="250px"
+            box.style.height="200px";
+            box.style.width="300px"
             box.style.zIndex="1";
             box.style.position="fixed";
             box.style.textAlign="center";
@@ -16,8 +16,8 @@ const toTheBox = {
             box.style.boxShadow=`6px 6px ${fntClr}`;
             box.style.borderRadius="10px"
             box.style.fontSize= `${fntSize}`;
-            box.style.left="20%";
-            box.style.top="20%";
+            box.style.left="25%";
+            box.style.top="30%";
             
             var btnOK = document.createElement("input");
             btnOK.type="button";
@@ -32,6 +32,7 @@ const toTheBox = {
             //btn.addEventListener("click", myScript);
            btnOK.onclick = function(){
                document.body.removeChild(box);
+               location.href="index.html";
            };
     },
     

@@ -23,8 +23,6 @@ const logic =
 
     addReservation:
         function (name, phone, startingHour, endHour, sitterId, cb) {
-
-
             let dataObj = {
                 name,
                 phone,
@@ -74,6 +72,7 @@ const logic =
                 headers: {"content-type": "application/json"},
                 body: JSON.stringify(sitterObj)
             })
+                .then (()=>cb(null))
                 .catch(err => cb(err));
         },
 }
