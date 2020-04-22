@@ -68,6 +68,7 @@ exports.askreservationHandler = (request, response) => {
         data += chunk;
     })
 
+
     request.on('end', () => {
         let jsonObj = JSON.from(data);
 
@@ -94,10 +95,13 @@ exports.getSittersHandler = function (request, response) {
     let { searchParams } = new urlR.URL(request.url, "http://localhost/")
 
     //set the read function
-    let readFunc = sittersCRUD.readAll;
+    let readFunc = getReadSittersFunc(searchParams);
+
+    if(!readFunc)
+        return exports.badRequestHandler(response)
 
 
-    readFunc((err, result) => {
+    readFunc((err,result)=>{
 
         if (err)
             return exports.serverErrorHandler(request, response);
@@ -114,28 +118,29 @@ exports.addSitterHandler = function (request, response) {
     let stream = "";
 
     //get the data from the stream
-    response.on("data", chunk => {
+    request.on("data", chunk => {
         stream += chunk;
     })
 
     //when all the data is received
-    response.on("end", () => {
+
+    request.on("end",  () => {
+
 
         //convert the data to a json file
-        let jsonObj = JSON.from(stream);
+        let jsonObj = JSON.parse(stream);
 
         //add the received data to the database
         sittersCRUD.create(jsonObj, (err, result) => {
 
             //if for some reason adding the data failed
             if (err)
-                return exports.badRequestHandler(request, response)
+                return exports.badRequestHandler( response)
 
 
             //todo - redirect user
-            response.writeHead(200, { "content-type": "application/json" })
-
-            response.end(JSON.stringify(result));
+            response.writeHead(200)
+            response.end();
 
         });
 
@@ -167,32 +172,45 @@ function loadFile(path, response) {
 
 
 function getReadSittersFunc(searchParams) {
-    let readFunc = sittersCRUD.readAll;
-    if (searchParams !== 0) {
 
-        readFunc = sittersCRUD.read;
-
-        //check of the count is valid
-        let count = searchParams.get("count");
-        if (count)
-            if (typeof count === "number")
-                readFunc = readFunc.bind(count);
-            else
-                return badRequestHandler(request, response);
+    //count the number of params in the url
+    let paramCount = 0;
+    for(const pair of searchParams)
+        paramCount++
 
 
+    if(paramCount === 0)
+        return sittersCRUD.readAll;
 
-        //check of the count is valid
-        let offset = searchParams.get("offset");
-        if (offset)
-            if (typeof offset === "number")
-                readFunc = readFunc.bind(offset);
-            else
-                return badRequestHandler(request, response);
 
+    if(paramCount === 1){
+        let count = parseInt(searchParams.get("count"));
+        if (!count || typeof count !== "number")
+            return null;
+
+        return  sittersCRUD.read.bind(sittersCRUD,count,undefined);
+    }
+
+
+    else if (paramCount === 2) {
+
+
+        let count = parseInt(searchParams.get("count"));
+        let offset = parseInt(searchParams.get("offset"));
+
+        if (!count || !offset)
+            return null;
+
+
+        if (typeof count !== "number" && typeof offset !== "number")
+            return null;
+
+
+        return sittersCRUD.read.bind(sittersCRUD,count,offset);
 
     }
 
+    return null;
 }
 
 
