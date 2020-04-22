@@ -51,10 +51,22 @@ const reserveSitter = ({name, phone, fromHour, toHour, sitterId}, cb) => {
 
 // Delete
 
+const deleteReservations = (cb) => {
+    dbConnection.query('DELETE FROM reservations WHERE id = index', (err, res)=>{
+        if(err) {
+            cb(err)
+        } else {
+            cb(null, res)
+        }
+    })
+}
+
 // const delete
 
 
 module.exports = {
     getAll,
-    reserveSitter
+    reserveSitter,
+    CountReservations,
+    deleteReservations
 }
