@@ -50,7 +50,7 @@ exports.getreservationHandler = (request, response) => {
             exports.serverErrorHandler(response)
         } else {
             response.writeHead(200, { 'Content-Type': 'Application/JSON' });
-            response.end(JSON.stringify(res.rows));
+            response.end(JSON.stringify(res));
         }
     });
 }
@@ -70,7 +70,7 @@ exports.askreservationHandler = (request, response) => {
 
 
     request.on('end', () => {
-        let jsonObj = JSON.from(data);
+        let jsonObj = JSON.parse(data);
 
         //validate input
         if(!reserveCRUD.isInputValid(jsonObj)){
@@ -78,12 +78,13 @@ exports.askreservationHandler = (request, response) => {
         }
 
         reserveCRUD.create(jsonObj, (err, result) => {
-            if (err) {
+            if (err)
                 return exports.badRequestHandler( response)
-            } else {
-                response.writeHead(200, { "content-type": "application/json" })
-                response.end(JSON.stringify(result.rows));
-            }
+
+            //todo redirection
+            response.writeHead(200)
+            response.end();
+
         })
     })
     
