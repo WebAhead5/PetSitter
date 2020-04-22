@@ -7,7 +7,17 @@ const getAll = cb => {
         if (err) {
             cb(err);
         } else {
-            cb(null, res.rows)
+            cb(null, res.rows);
+        }
+    })
+}
+
+const read = (count, offset = 0, cb) => {
+    dbConnection.query('SELECT * FROM reservations offset $1 LIMIT $2',[offset, count], (err, res) => {
+        if(err){
+            cb(err);
+        } else {
+            cb(null, res.rows);
         }
     })
 }
@@ -84,5 +94,6 @@ module.exports = {
     create: reserveSitter,
     count: CountReservations,
     delete: deleteReservations,
-    isInputValid
+    isInputValid,
+    read
 }

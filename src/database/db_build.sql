@@ -31,7 +31,12 @@ VALUES('Morad Abed', '11:30', '13:00', '50' );
 
 
 INSERT INTO reservations (reservant_full_name, reservant_phone, starting_hour, end_hour,sitter_id)
-VALUES('Marwan Rizik', '050111111', '11:30', '13:00',0);
+VALUES('Marwan Rizik', '050111111', '11:30', '13:00',0),
+    ('a', '050111111', '11:30', '13:00',0),
+    ('b', '050111111', '11:30', '13:00',0),
+    ('c', '050111111', '11:30', '13:00',0),
+    ('d', '050111111', '11:30', '13:00',0),
+    ('e', '050111111', '11:30', '13:00',0);
 
 
 COMMIT;

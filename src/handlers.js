@@ -45,14 +45,8 @@ exports.serverErrorHandler = function (response) {
 //the GET method
 // Gets the reservations data from the database
 exports.getreservationHandler = (request, response) => {
-    reserveCRUD.readAll((err, res) => {
-        if (err) {
-            exports.serverErrorHandler(response)
-        } else {
-            response.writeHead(200, { 'Content-Type': 'Application/JSON' });
-            response.end(JSON.stringify(res));
-        }
-    });
+    getReadFromDbHandler(request, response,reserveCRUD) 
+
 }
 
 
@@ -92,24 +86,8 @@ exports.askreservationHandler = (request, response) => {
 
 exports.getSittersHandler = function (request, response) {
 
-    //get params from url
-    let { searchParams } = new urlR.URL(request.url, "http://localhost/")
+     getReadFromDbHandler(request, response,sittersCRUD) 
 
-    //set the read function
-    let readFunc = getReadSittersFunc(searchParams, sittersCRUD);
-
-    if (!readFunc)
-        return exports.badRequestHandler(response)
-
-
-    readFunc((err, result) => {
-
-        if (err)
-            return exports.serverErrorHandler(request, response);
-
-        response.writeHead(200, { "content-type": "application/json" })
-        response.end(JSON.stringify(result));
-    });
 
 }
 
@@ -170,6 +148,29 @@ function loadFile(path, response) {
 }
 
 
+
+function getReadFromDbHandler(request, response,crud) {
+
+    //get params from url
+    let { searchParams } = new urlR.URL(request.url, "http://localhost/")
+
+    //set the read function
+    let readFunc = getReadSittersFunc(searchParams, crud);
+
+    if (!readFunc)
+        return exports.badRequestHandler(response)
+
+
+    readFunc((err, result) => {
+
+        if (err)
+            return exports.serverErrorHandler(request, response);
+
+        response.writeHead(200, { "content-type": "application/json" })
+        response.end(JSON.stringify(result));
+    });
+
+}
 
 
 function getReadSittersFunc(searchParams, crud) {
