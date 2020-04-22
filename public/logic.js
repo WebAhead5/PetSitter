@@ -78,11 +78,6 @@ const logic =
 
     getAvailableSitter:
         function (startingHour, endHour,cb) {
-            const reg = /^\d{2,}:\d{2}$/;
-
-            if (!reg.test(startingHour) || !reg.test(endHour))
-                return cb(new Error("invalid argument - value must be in 'HH:MM' format"));
-
 
             fetch(`/availableSitters?start=${encodeURI(startingHour)}&end=${encodeURI(endHour)}`)
                 .then(res => res.json())
