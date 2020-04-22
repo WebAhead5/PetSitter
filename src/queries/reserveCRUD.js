@@ -19,14 +19,20 @@ const CountReservations = cb => {
         if (err) {
             cb(err);
         } else {
-            cb(null, res.rowCount)
+            cb(null, res.rows[0].count)
         }
     })
 }
 
 //Insert new data to reservations table on the database
 
-const reserveSitter = ({ name, phone, fromHour, toHour, sitterId }, cb) => {
+const reserveSitter = ({ name, phone, fromHour, toHour, sitterId } , cb) => {
+   
+    // if(!isInputValid(obj))
+    //     return cb(new Error("..."))
+
+    // let { name, phone, fromHour, toHour, sitterId } = obj;
+    
     dbConnection.query('INSERT INTO reservations (reservant_full_name, reservant_phone, starting_hour, end_hour, sitter_id, is_reserved) VALUES ($1, $2, $3, $4, $5)', [name, phone, fromHour, toHour, sitterId],
         (err, res) => {
             if (err) {
@@ -57,11 +63,13 @@ const deleteReservations = (cb) => {
 function isInputValid(obj = {}) {
     if (typeof obj.name !== 'string') {
         return false;
-    } else if (typeof jsonObj.phone !== 'number') {
+    } else if (typeof obj.phone !== 'number') {
         return false;
     } else {
         return true;
     }
+
+
 }
 
 //added to the handlers.askreserve...

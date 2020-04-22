@@ -61,27 +61,31 @@ exports.getreservationHandler = (request, response) => {
 //Adds received information to the database
 
 exports.askreservationHandler = (request, response) => {
-    if(!reserveCRUD.isInputValid){
-        throw new Error("Name must be string and phone must be number")
-    } else {
+   
     let data = '';
 
-    response.on('data', chunk => {
+    request.on('data', chunk => {
         data += chunk;
     })
 
-    response.on('end', () => {
+    request.on('end', () => {
         let jsonObj = JSON.from(data);
+
+        //validate input
+        if(!reserveCRUD.isInputValid(jsonObj)){
+            return exports.badRequestHandler( response)
+        }
+
         reserveCRUD.create(jsonObj, (err, result) => {
             if (err) {
-                return exports.badRequestHandler(request, response)
+                return exports.badRequestHandler( response)
             } else {
                 response.writeHead(200, { "content-type": "application/json" })
                 response.end(JSON.stringify(result.rows));
             }
         })
     })
-    }
+    
 }
 
 exports.getSittersHandler = function (request, response) {
