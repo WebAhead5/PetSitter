@@ -13,8 +13,10 @@ const sittersCRUD = require("./queries/sittersCRUD")
 
 exports.homeHandler = function (request, response) {
 
-    let filePath = path.join("./", "public", "index.html")
-    loadFile(filePath, ".html", response);
+
+    let filePath =path.join("./","public","index.html")
+    loadFile(filePath,response);
+
 
 }
 exports.fileHandler = function (request, response) {
@@ -25,7 +27,7 @@ exports.fileHandler = function (request, response) {
     let filePath = path.join("./", "public", endPoint);
     // filePath = path.resolve(baseName,filePath, "./");
 
-    loadFile(filePath, ext, response);
+    loadFile(filePath,response);
 
 }
 
@@ -91,18 +93,29 @@ exports.askreservationHandler = (request, response) => {
     })
 }
 
-exports.getSettersHandler = function (request, response) {
-    sittersCRUD.read((err, result) => {
+exports.getSittersHandler = function(request, response) {
 
-        if (err)
-            exports.serverErrorHandler(request, response)
+    //get params from url
+    let {searchParams} = new urlR.URL( request.url,"http://localhost/")
+
+    //set the read function
+    let readFunc = sittersCRUD.readAll;
+
+
+    readFunc((err,result)=>{
+
+        if(err)
+            return exports.serverErrorHandler(request,response)
+
 
         response.writeHead(200, { "content-type": "application/json" })
         response.end(JSON.stringify(result));
     });
 
 }
-exports.addSetterHandler = function (request, response) {
+
+exports.addSitterHandler = function(request, response) {
+
 
     let stream = "";
 
@@ -112,10 +125,10 @@ exports.addSetterHandler = function (request, response) {
     })
 
     //when all the data is received
-    response.on("end", chunk => {
+    response.on("end",  () => {
 
         //convert the data to a json file
-        let jsonObj = JSON.from(chunk);
+        let jsonObj = JSON.from(stream);
 
         //add the received data to the database
         sittersCRUD.create(jsonObj, (err, result) => {
@@ -124,7 +137,10 @@ exports.addSetterHandler = function (request, response) {
             if (err)
                 return exports.badRequestHandler(request, response)
 
-            response.writeHead(200, { "content-type": "application/json" })
+
+            //todo - redirect user
+            response.writeHead(200, {"content-type": "application/json"})
+
             response.end(JSON.stringify(result));
 
         });
@@ -135,7 +151,8 @@ exports.addSetterHandler = function (request, response) {
 }
 
 
-function loadFile(path, fileExt, response) {
+function loadFile(path ,response){
+
 
 
     fs.readFile(path, (err, res) => {
@@ -143,7 +160,7 @@ function loadFile(path, fileExt, response) {
             exports.serverErrorHandler(response);
         }
         else {
-            response.writeHead(200, { 'content-type': mime.lookup(fileExt) })
+            response.writeHead(200, {'content-type':mime.lookup(path)})
             response.end(res);
         }
 
@@ -153,6 +170,36 @@ function loadFile(path, fileExt, response) {
 }
 
 
+
+
+function getReadSittersFunc(searchParams) {
+    let readFunc = sittersCRUD.readAll;
+    if(searchParams !== 0){
+
+        readFunc =  sittersCRUD.read;
+
+        //check of the count is valid
+        let count = searchParams.get("count") ;
+        if(count)
+            if(typeof count === "number")
+                readFunc = readFunc.bind(count);
+            else
+                return badRequestHandler(request,response);
+
+
+
+        //check of the count is valid
+        let offset = searchParams.get("offset") ;
+        if(offset)
+            if(typeof offset === "number")
+                readFunc = readFunc.bind(offset);
+            else
+                return badRequestHandler(request,response);
+
+
+    }
+
+}
 
 
 
