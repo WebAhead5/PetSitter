@@ -58,7 +58,7 @@ const logic =
         },
 
     addSitters:
-        function addSitters(name, startingHour, endHour, cost, cb) {
+        function (name, startingHour, endHour, cost, cb) {
 
             let sitterObj = {
                 name,
@@ -75,6 +75,21 @@ const logic =
                 .then (()=>cb(null))
                 .catch(err => cb(err));
         },
+
+    getAvailableSitter:
+        function (startingHour, endHour,cb) {
+            const reg = /^\d{2,}:\d{2}$/;
+
+            if (!reg.test(startingHour) || !reg.test(endHour))
+                return cb(new Error("invalid argument - value must be in 'HH:MM' format"));
+
+
+            fetch(`/availableSitters?start=${encodeURI(startingHour)}&end=${encodeURI(endHour)}`)
+                .then(res => res.json())
+                .then(obj => cb(null, obj))
+                .catch(err => cb(err));
+        },
+
 }
 
 // export default logic;
