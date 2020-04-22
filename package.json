@@ -8,8 +8,7 @@
     "start": "node src/server.js",
     "test": "NODE_ENV=test nodemon testers/**/*.test.js",
     "test2": "NODE_ENV=test node src/queries/sittersCRUD.js",
-    "build": "node ./src/database/db_build.js",
-    "heroku-postbuild": "ng build --prod"
+    "build": "node ./src/database/db_build.js"
   },
   "engines": {
     "node": "10.15.2"
