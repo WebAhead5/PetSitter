@@ -26,14 +26,15 @@ const CountReservations = cb => {
 
 //Insert new data to reservations table on the database
 
-const reserveSitter = ({ name, phone, fromHour, toHour, sitterId } , cb) => {
+const reserveSitter = ({ name, phone,startingHr, endHr, sitterId } , cb) => {
    
     // if(!isInputValid(obj))
     //     return cb(new Error("..."))
 
     // let { name, phone, fromHour, toHour, sitterId } = obj;
     
-    dbConnection.query('INSERT INTO reservations (reservant_full_name, reservant_phone, starting_hour, end_hour, sitter_id, is_reserved) VALUES ($1, $2, $3, $4, $5)', [name, phone, fromHour, toHour, sitterId],
+    dbConnection.query('INSERT INTO reservations (reservant_full_name, reservant_phone, starting_hour, end_hour, sitter_id) VALUES ($1, $2, $3, $4, $5)',
+        [name, phone, startingHr, endHr, sitterId],
         (err, res) => {
             if (err) {
                 cb(err)
@@ -61,14 +62,15 @@ const deleteReservations = (cb) => {
 // isInputValid
 
 function isInputValid(obj = {}) {
-    if (typeof obj.name !== 'string') {
-        return false;
-    } else if (typeof obj.phone !== 'number') {
-        return false;
-    } else {
-        return true;
-    }
+    // if (typeof obj.name !== 'string') {
+    //     return false;
+    // } else if (typeof obj.phone !== 'string') {
+    //     return false;
+    // } else {
+    //     return true;
+    // }
 
+    return true;
 
 }
 
