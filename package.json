@@ -10,11 +10,16 @@
     "test2": "NODE_ENV=test node src/queries/sittersCRUD.js",
     "build": "node ./src/database/db_build.js"
   },
+  "engines": {
+    "node": "10.15.2"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/WebAhead5/PetSitter.git"
   },
-  "keywords": [],
+  "keywords": [
+    "heroku"
+  ],
   "author": "",
   "license": "ISC",
   "bugs": {
@@ -24,7 +29,7 @@
   "devDependencies": {
     "dotenv": "^8.2.0",
     "nodemon": "^2.0.3",
-    "pg": "^8.0.2",
+    "pg": "^8.0.3",
     "supertest": "^4.0.2",
     "tap-spec": "^5.0.0",
     "tape": "^4.13.2"
