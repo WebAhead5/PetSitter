@@ -189,7 +189,7 @@ function getReadSittersFunc(searchParams) {
         if (!count || typeof count !== "number")
             return null;
 
-        return  sittersCRUD.read.bind(sittersCRUD,count,undefined);
+        return  (cb)=> sittersCRUD.read(count,0,cb)
     }
 
 
@@ -207,7 +207,7 @@ function getReadSittersFunc(searchParams) {
             return null;
 
 
-        return sittersCRUD.read.bind(sittersCRUD,count,offset);
+        return (cb)=> sittersCRUD.read(count,offset,cb)
 
     }
 
