@@ -47,7 +47,15 @@ exports.askreservationHandler = (request, response) => {
 }
 
 exports.getSittersHandler = function(request, response) {
-    sittersCRUD.read((err,result)=>{
+
+    //get params from url
+    let {searchParams} = new urlR.URL( request.url,"http://localhost/")
+
+    //set the read function
+    let readFunc = sittersCRUD.readAll;
+
+
+    readFunc((err,result)=>{
 
         if(err)
             return exports.serverErrorHandler(request,response)
@@ -109,6 +117,36 @@ function loadFile(path ,response){
 }
 
 
+
+
+function getReadSittersFunc(searchParams) {
+    let readFunc = sittersCRUD.readAll;
+    if(searchParams !== 0){
+
+        readFunc =  sittersCRUD.read;
+
+        //check of the count is valid
+        let count = searchParams.get("count") ;
+        if(count)
+            if(typeof count === "number")
+                readFunc = readFunc.bind(count);
+            else
+                return badRequestHandler(request,response);
+
+
+
+        //check of the count is valid
+        let offset = searchParams.get("offset") ;
+        if(offset)
+            if(typeof offset === "number")
+                readFunc = readFunc.bind(offset);
+            else
+                return badRequestHandler(request,response);
+
+
+    }
+
+}
 
 
 
