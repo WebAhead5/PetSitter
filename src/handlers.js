@@ -3,6 +3,7 @@ const fs = require("fs");
 const path = require("path");
 const mime = require("mime-types");
 const urlR = require("url")
+const reserveCRUD = require('../src/queries/reserveCRUD')
 
 const sittersCRUD = require("./queries/sittersCRUD")
 
@@ -39,9 +40,23 @@ exports.serverErrorHandler = function(response){
 }
 
 
+//the GET method
 exports.getreservationHandler = (request, response) => {
-
+    reserveCRUD.getAll((err, res) => {
+        if (err) {
+            exports.serverErrorHandler(response)
+        } else {
+            response.writeHead(200, {'Content-Type':'Application/JSON'});
+            response.end(JSON.stringify(res.rows));
+        }
+    });
 }
+
+
+
+//the POST method
+
+
 exports.askreservationHandler = (request, response) => {
 
 }
