@@ -1,4 +1,5 @@
 const dbConnection = require('../database/db_connection');
+let validator = require("./validationUtil")
 
 
 // Reads all data from reservations table on the database 
@@ -37,12 +38,25 @@ const CountReservations = cb => {
 //Insert new data to reservations table on the database
 
 const reserveSitter = ({ name, phone,startingHr, endHr, sitterId } , cb) => {
-   
-    // if(!isInputValid(obj))
-    //     return cb(new Error("..."))
 
-    // let { name, phone, fromHour, toHour, sitterId } = obj;
-    
+    //validate inputs
+    if(!validator.isTime(startingHr) || !validator.isTime(endHr))
+        return cb(new Error("invalid argument(s), invalid hour argument(s)."))
+
+    if(startingHr >= endHr)
+        return cb(new Error("invalid argument(s), start time cannot be equal to or come after the end time"))
+
+    if(!validator.isLettersAndSpacesOnly(name))
+        return cb(new Error("invalid argument(s), illegal chars entered in name"))
+
+    if(!validator.isNumber(sitterId))
+        return cb(new Error("invalid argument(s), sitterId is not a number"))
+
+    if(!validator.isNumber(phone))
+        return cb(new Error("invalid argument(s), illegal chars in phone number"))
+
+
+
     dbConnection.query('INSERT INTO reservations (reservant_full_name, reservant_phone, starting_hour, end_hour, sitter_id) VALUES ($1, $2, $3, $4, $5)',
         [name, phone, startingHr, endHr, sitterId],
         (err, res) => {

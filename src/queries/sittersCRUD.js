@@ -1,5 +1,7 @@
 
 const dbConnection = require("../database/db_connection")
+let validator = require("./validationUtil")
+
 
 exports.readAll = function(cb) {
 
@@ -36,6 +38,22 @@ exports.delete = function(index,cb){
 
 
 exports.create =function({name,startingHr,endHr,cost},cb) {
+
+    //validate inputs
+    if(!validator.isTime(startingHr)||!validator.isTime(endHr))
+        return cb(new Error("invalid argument(s), invalid hour argument(s)."))
+
+    if(startingHr >= endHr)
+        return cb(new Error("invalid argument(s), start time cannot be equal to or come after the end time"))
+
+    if(!validator.isLettersAndSpacesOnly(name))
+        return cb(new Error("invalid argument(s), illegal chars entered in name"))
+
+    if(!validator.isNumber(cost))
+        return cb(new Error("invalid argument(s), cost is not a number"))
+
+
+    //run sql commands
     const sqlC = `insert into sitters(name,starting_hour,end_hour,cost) 
                   values ($1,$2,$3,$4);`;
     dbConnection.query(sqlC,[name,startingHr,endHr,cost], cb)

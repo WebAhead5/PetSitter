@@ -1,5 +1,5 @@
 function isTime(startHr){
-    const reg = /^\d{2,}:\d{2}$/;
+    const reg = /^\d{2}:\d{2}$/;
 
     if (!reg.test(startHr))
         return false;
@@ -26,7 +26,7 @@ function isLettersAndSpacesOnly(str){
 }
 
 function isNumber(str) {
-    return typeof Number(str) === "number"
+    return  str && str.toString().trim() !=="" && typeof Number(str) === "number"
 
 }
 
