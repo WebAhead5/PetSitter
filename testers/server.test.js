@@ -1,9 +1,6 @@
 const supertest = require("supertest");
 const tape = require("tape");
 const equalsFile = require("./util");
-const sittersCRUD = require("../src/queries/sittersCRUD");
-const reserveCRUD = require("../src/queries/reserveCRUD");
-const getAvailableSitters = require("../src/queries/getAvailableSitters");
 const router = require("../src/router");
 
 
@@ -108,10 +105,10 @@ tape.test("test method: GET , route '/sitters?somethingElse=2'",t=>{
             t.end();
         })
 })
-tape.test("test method: POST , route '/sitters' body: {name,startingHr,endHr,cost}",t=>{
+tape.test("test method: POST , route '/sitters' body: valid {name,startingHr,endHr,cost} ",t=>{
 
     supertest(router)
-        .post("/sitters?somethingElse=2")
+        .post("/sitters")
         .send({name: 'test',startingHr:"10:30",endHr:"22:00",cost:30})
         .set('Accept', 'application/json')
         .expect(200)
@@ -121,21 +118,239 @@ tape.test("test method: POST , route '/sitters' body: {name,startingHr,endHr,cos
             t.end();
         })
 })
-tape.test("test method: POST , route '/sitters' body: {name,startingHr,endHr}",t=>{
+tape.test("test method: POST , route '/sitters' body: missing {name,startingHr,endHr}",t=>{
 
     supertest(router)
-        .post("/sitters?somethingElse=2")
+        .post("/sitters")
         .send({name: 'test',startingHr:"10:30",endHr:"22:00"})
+        .expect(400)
+        .end((e)=>{
+
+            t.error(e,"not added to database");
+            t.end();
+        })
+})
+tape.test("test method: POST , route '/sitters' body: missing {name,startingHr,cost}",t=>{
+
+    supertest(router)
+        .post("/sitters")
+        .send({name: 'test',startingHr:"10:30",cost:50})
+        .expect(400)
+        .end((e)=>{
+
+            t.error(e,"not added to database");
+            t.end();
+        })
+})
+tape.test("test method: POST , route '/sitters' body: missing {name,endHr,cost}",t=>{
+
+    supertest(router)
+        .post("/sitters")
+        .send({name: 'test',endHr:"10:30",cost:50})
+        .expect(400)
+        .end((e)=>{
+
+            t.error(e,"not added to database");
+            t.end();
+        })
+})
+tape.test("test method: POST , route '/sitters' body: missing {startingHr,endHr,cost}",t=>{
+
+    supertest(router)
+        .post("/sitters")
+        .send({startingHr:"7:30",endHr:"10:30",cost:50})
+        .expect(400)
+        .end((e)=>{
+
+            t.error(e,"not added to database");
+            t.end();
+        })
+})
+tape.test("test method: POST , route '/sitters' body: missing {name,startingHr}",t=>{
+
+    supertest(router)
+        .post("/sitters")
+        .send({name: 'test', startingHr:"7:30"})
+        .expect(400)
+        .end((e)=>{
+
+            t.error(e,"not added to database");
+            t.end();
+        })
+})
+tape.test("test method: POST , route '/sitters' body: missing {name,endHr}",t=>{
+
+    supertest(router)
+        .post("/sitters")
+        .send({name: 'test', endHr:"7:30"})
+        .expect(400)
+        .end((e)=>{
+
+            t.error(e,"not added to database");
+            t.end();
+        })
+})
+tape.test("test method: POST , route '/sitters' body: missing {name,cost}",t=>{
+
+    supertest(router)
+        .post("/sitters")
+        .send({name: 'test', cost:"0"})
+        .expect(400)
+        .end((e)=>{
+
+            t.error(e,"not added to database");
+            t.end();
+        })
+})
+tape.test("test method: POST , route '/sitters' body: missing {startingHr,endHr}",t=>{
+
+    supertest(router)
+        .post("/sitters")
+        .send({startingHr:"7:30",endHr:"10:30"})
+        .expect(400)
+        .end((e)=>{
+
+            t.error(e,"not added to database");
+            t.end();
+        })
+})
+tape.test("test method: POST , route '/sitters' body: missing {startingHr,cost}",t=>{
+
+    supertest(router)
+        .post("/sitters")
+        .send({startingHr:"7:30",cost:"10"})
+        .expect(400)
+        .end((e)=>{
+
+            t.error(e,"not added to database");
+            t.end();
+        })
+})
+tape.test("test method: POST , route '/sitters' body: missing {endHr,cost}",t=>{
+
+    supertest(router)
+        .post("/sitters")
+        .send({endHr:"7:30",cost:"10"})
+        .expect(400)
+        .end((e)=>{
+
+            t.error(e,"not added to database");
+            t.end();
+        })
+})
+tape.test("test method: POST , route '/sitters' body: missing {name}",t=>{
+
+    supertest(router)
+        .post("/sitters")
+        .send({name:"aaa"})
+        .expect(400)
+        .end((e)=>{
+
+            t.error(e,"not added to database");
+            t.end();
+        })
+})
+tape.test("test method: POST , route '/sitters' body: missing {startingHr}",t=>{
+
+    supertest(router)
+        .post("/sitters")
+        .send({startingHr:"7:30"})
+        .expect(400)
+        .end((e)=>{
+
+            t.error(e,"not added to database");
+            t.end();
+        })
+})
+tape.test("test method: POST , route '/sitters' body: missing {endHr}",t=>{
+
+    supertest(router)
+        .post("/sitters")
+        .send({endHr:"7:30"})
+        .expect(400)
+        .end((e)=>{
+
+            t.error(e,"not added to database");
+            t.end();
+        })
+})
+tape.test("test method: POST , route '/sitters' body: missing {cost}",t=>{
+
+    supertest(router)
+        .post("/sitters")
+        .send({cost:"2"})
+        .expect(400)
+        .end((e)=>{
+
+            t.error(e,"not added to database");
+            t.end();
+        })
+})
+tape.test("test method: POST , route '/sitters' body: invalid name {name,startingHr,endHr,cost} ",t=>{
+
+    supertest(router)
+        .post("/sitters")
+        .send({name: ' 3*2',startingHr:"10:30",endHr:"22:00",cost:30})
         .set('Accept', 'application/json')
-        .expect(200)
+        .expect(400)
+        .end((e)=>{
+
+            t.error(e,"not added to database");
+            t.end();
+        })
+})
+tape.test("test method: POST , route '/sitters' body: invalid startingHr {name,startingHr,endHr,cost} ",t=>{
+
+    supertest(router)
+        .post("/sitters")
+        .send({name: 'test',startingHr:"10: 30",endHr:"22:00",cost:30})
+        .set('Accept', 'application/json')
+        .expect(400)
+        .end((e)=>{
+
+            t.error(e,"not added to database");
+            t.end();
+        })
+})
+tape.test("test method: POST , route '/sitters' body: invalid endHr {name,startingHr,endHr,cost} ",t=>{
+
+    supertest(router)
+        .post("/sitters")
+        .send({name: 'test',startingHr:"10:30",endHr:"22:0",cost:30})
+        .set('Accept', 'application/json')
+        .expect(400)
+        .end((e)=>{
+
+            t.error(e,"not added to database");
+            t.end();
+        })
+})
+tape.test("test method: POST , route '/sitters' body: invalid cost{name,startingHr,endHr,cost} ",t=>{
+
+    supertest(router)
+        .post("/sitters")
+        .send({name: 'test',startingHr:"10:30",endHr:"22:00",cost:"A"})
+        .set('Accept', 'application/json')
+        .expect(400)
+        .end((e)=>{
+
+            t.error(e,"not added to database");
+            t.end();
+        })
+})
+tape.test("test method: POST , route '/sitters' body: invalid times {name,startingHr,endHr,cost} ",t=>{
+
+    supertest(router)
+        .post("/sitters")
+        .send({name: 'test',startingHr:"10:30",endHr:"5:00",cost:"A"})
+        .set('Accept', 'not application/json')
+        .expect(400)
         .end((e)=>{
 
             t.error(e,"added to database");
             t.end();
         })
 })
-
-
 
 
 
@@ -211,7 +426,156 @@ tape.test("test method: GET , route '/reservations?somethingElse=2'",t=>{
             t.end();
         })
 })
+tape.test("test method: POST , route '/reservations' body: valid {name,phone,startingHr,endHr,sitterId} ",t=>{
 
+    supertest(router)
+        .post("/reservations")
+        .send({name: 'test',phone:3333344442,startingHr:"10:30",endHr:"22:00",sitterId:30})
+        .set('Accept', 'application/json')
+        .expect(308)
+        .end((e)=>{
+
+            t.error(e,"added to database");
+            t.end();
+        })
+})
+tape.test("test method: POST , route '/reservations' body: missing {name,phone,startingHr,endHr}",t=>{
+
+    supertest(router)
+        .post("/reservations")
+        .send({name: 'test',startingHr:"10:30",endHr:"22:00",phone:"1111222233"})
+        .expect(400)
+        .end((e)=>{
+
+            t.error(e,"not added to database");
+            t.end();
+        })
+})
+tape.test("test method: POST , route '/reservations' body: missing {name,phone,startingHr,sitterId}",t=>{
+
+    supertest(router)
+        .post("/reservations")
+        .send({name: 'test',startingHr:"10:30",sitterId:50,phone:"1111222233"})
+        .expect(400)
+        .end((e)=>{
+
+            t.error(e,"not added to database");
+            t.end();
+        })
+})
+tape.test("test method: POST , route '/reservations' body: missing {name,sitterId}",t=>{
+
+    supertest(router)
+        .post("/reservations")
+        .send({name: 'test', sitterId:0})
+        .expect(400)
+        .end((e)=>{
+
+            t.error(e,"not added to database");
+            t.end();
+        })
+})
+tape.test("test method: POST , route '/reservations' body: missing {startingHr,endHr}",t=>{
+
+    supertest(router)
+        .post("/reservations")
+        .send({startingHr:"7:30",endHr:"10:30"})
+        .expect(400)
+        .end((e)=>{
+
+            t.error(e,"not added to database");
+            t.end();
+        })
+})
+tape.test("test method: POST , route '/reservations' body: missing {startingHr,sitterId}",t=>{
+
+    supertest(router)
+        .post("/reservations")
+        .send({startingHr:"7:30",sitterId:"10"})
+        .expect(400)
+        .end((e)=>{
+
+            t.error(e,"not added to database");
+            t.end();
+        })
+})
+tape.test("test method: POST , route '/reservations' body: missing {sitterId}",t=>{
+
+    supertest(router)
+        .post("/reservations")
+        .send({sitterId:"2"})
+        .expect(400)
+        .end((e)=>{
+
+            t.error(e,"not added to database");
+            t.end();
+        })
+})
+tape.test("test method: POST , route '/reservations' body: invalid name {name,phone,startingHr,endHr,sitterId} ",t=>{
+
+    supertest(router)
+        .post("/reservations")
+        .send({name: ' 3*2',startingHr:"10:30",endHr:"22:00",sitterId:30,phone:"1111222233"})
+        .set('Accept', 'application/json')
+        .expect(400)
+        .end((e)=>{
+
+            t.error(e,"not added to database");
+            t.end();
+        })
+})
+tape.test("test method: POST , route '/reservations' body: invalid startingHr {name,phone,startingHr,endHr,sitterId} ",t=>{
+
+    supertest(router)
+        .post("/reservations")
+        .send({name: 'test',startingHr:"10: 30",endHr:"22:00",sitterId:30,phone:"1111222233"})
+        .set('Accept', 'application/json')
+        .expect(400)
+        .end((e)=>{
+
+            t.error(e,"not added to database");
+            t.end();
+        })
+})
+tape.test("test method: POST , route '/reservations' body: invalid endHr {name,phone,startingHr,endHr,sitterId} ",t=>{
+
+    supertest(router)
+        .post("/reservations")
+        .send({name: 'test',startingHr:"10:30",endHr:"22:0",sitterId:30,phone:"1111222233"})
+        .set('Accept', 'application/json')
+        .expect(400)
+        .end((e)=>{
+
+            t.error(e,"not added to database");
+            t.end();
+        })
+})
+tape.test("test method: POST , route '/reservations' body: invalid sitterId{name,phone,startingHr,endHr,sitterId} ",t=>{
+
+    supertest(router)
+        .post("/reservations")
+        .send({name: 'test',startingHr:"10:30",endHr:"22:00",sitterId:"A",phone:"1111222233"})
+        .set('Accept', 'application/json')
+        .expect(400)
+        .end((e)=>{
+
+            t.error(e,"not added to database");
+            t.end();
+        })
+})
+tape.test("test method: POST , route '/reservations' body: invalid times {name,phone,startingHr,endHr,sitterId} ",t=>{
+
+    supertest(router)
+        .post("/reservations")
+        .send({name: 'test',startingHr:"10:30",endHr:"5:00",sitterId:"A",phone:"1111222233"})
+        .set('Accept', 'not application/json')
+        .expect(400)
+        .end((e)=>{
+
+            t.error(e,"added to database");
+            t.end();
+        })
+})
 
 
 
