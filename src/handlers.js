@@ -3,7 +3,7 @@ const fs = require("fs");
 const path = require("path");
 const mime = require("mime-types");
 const urlR = require("url")
-const reserveCRUD = require('../src/queries/reserveCRUD')
+const {getAll, reserveSitter} = require('../src/queries/reserveCRUD')
 
 const sittersCRUD = require("./queries/sittersCRUD")
 
@@ -41,8 +41,9 @@ exports.serverErrorHandler = function(response){
 
 
 //the GET method
+// Gets the reservations data from the database
 exports.getreservationHandler = (request, response) => {
-    reserveCRUD.getAll((err, res) => {
+    getAll((err, res) => {
         if (err) {
             exports.serverErrorHandler(response)
         } else {
@@ -55,10 +56,25 @@ exports.getreservationHandler = (request, response) => {
 
 
 //the POST method
-
+//Adds received information to the database
 
 exports.askreservationHandler = (request, response) => {
+    let data = '';
+    
+    response.on('data', chunk => {
+        data += chunk;
+    })
 
+    response.on('end', () => {
+        let jsonObj = JSON.from(data);
+        reserveSitter(jsonObj, (err, result)=> {
+            if (err)
+                return exports.badRequestHandler(request, response)
+
+            response.writeHead(200, {"content-type": "application/json"})
+            response.end(JSON.stringify(result.rows));
+        })
+    })
 }
 
 exports.getSettersHandler = function(request, response) {
