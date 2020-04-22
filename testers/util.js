@@ -6,12 +6,15 @@ const path = require("path")
 
 
 
-/**
- * compares the body of the route with the content of a file
- * @param filePath
- * @returns {function(...[*]=)}
- */
-module.exports= function expect_compareWithFile(filePath){
+
+module.exports=
+
+    /**
+     * compares the body of the route with the content of a file
+     * @param filePath
+     * @returns {function(...[*]=)}
+     */
+function expect_compareWithFile(filePath){
     return (routeResponse) => {
         let fileData;
         try{
