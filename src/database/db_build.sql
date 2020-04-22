@@ -1,11 +1,15 @@
 BEGIN;
 
+-- CREATE DATABASE project_db;
+-- CREATE USER super WITH SUPERUSER PASSWORD '123';
+-- ALTER DATABASE project_db OWNER TO super;
+
 DROP TABLE IF EXISTS sitters,reservations CASCADE;
 
 CREATE TABLE sitters(
                         id SERIAL PRIMARY KEY,
                         name VARCHAR(100) NOT NULL,
-                        starting_hour TIME(HH:MM) NOT NULL,
+                        starting_hour TIME NOT NULL,
                         end_hour TIME NOT NULL,
                         cost INTEGER NOT NULL
 );

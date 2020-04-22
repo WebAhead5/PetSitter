@@ -5,6 +5,8 @@ const mime = require("mime-types");
 const urlR = require("url")
 const reserveCRUD = require('../src/queries/reserveCRUD')
 
+const sittersCRUD = require("./queries/sittersCRUD")
+
 exports.homeHandler = function(request,response){
 
     let filePath =path.join("./","public","index.html")
@@ -51,11 +53,56 @@ exports.getreservationHandler = (request, response) => {
 }
 
 
+
 //the POST method
+
+
 exports.askreservationHandler = (request, response) => {
 
 }
 
+exports.getSettersHandler = function(request, response) {
+    sittersCRUD.read((err,result)=>{
+
+        if(err)
+            exports.serverErrorHandler(request,response)
+
+        response.writeHead(200, {"content-type":"application/json"})
+        response.end(JSON.stringify(result));
+    });
+
+}
+exports.addSetterHandler = function(request, response) {
+
+    let stream = "";
+
+    //get the data from the stream
+    response.on("data", chunk => {
+        stream += chunk;
+    })
+
+    //when all the data is received
+    response.on("end", chunk => {
+
+        //convert the data to a json file
+        let jsonObj = JSON.from(chunk);
+
+        //add the received data to the database
+        sittersCRUD.create(jsonObj, (err, result) => {
+
+            //if for some reason adding the data failed
+            if (err)
+                return exports.badRequestHandler(request, response)
+
+            response.writeHead(200, {"content-type": "application/json"})
+            response.end(JSON.stringify(result));
+
+        });
+
+    })
+
+
+}
 
 
 function loadFile(path, fileExt ,response){
