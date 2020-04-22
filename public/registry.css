@@ -1,4 +1,33 @@
-
+p{
+    position: fixed;
+    top:85%;
+    background: #3e4f24;
+    color: aliceblue; 
+    height: 40px;
+    font-weight: 30px;
+    padding: 10px;
+}
+nav{
+    display: flex;
+    justify-content:space-around;
+    border: 1px solid #3e4f24;
+    margin-top: 5px;
+    cursor: pointer;
+    height: 25px;
+}
+nav:hover{
+    background:#75a32f;
+}
+span{
+    display: flex;
+    justify-content:space-around;
+    background: #3e4f24;
+    width: 100%;
+    height: 30px;
+    padding: 2px;
+    margin:auto;
+    color: aliceblue;
+}
 * {
     box-sizing: border-box;
 }
@@ -27,10 +56,11 @@ h2 {
 }
 form {
     position: relative;
-    width: 80%;
-    height: 60vh;
+    width: 85%;
+    height: 70vh;
     border-radius: 30px;
     background: #fff;
+    overflow: scroll;
 }
 .form-left-decoration,
 .form-right-decoration {
