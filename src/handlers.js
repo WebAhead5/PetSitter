@@ -5,7 +5,7 @@ const mime = require("mime-types");
 const urlR = require("url")
 const reserveCRUD = require('../src/queries/reserveCRUD');
 const sittersCRUD = require("./queries/sittersCRUD");
-const getAvailableSitters = require("./queries/GetAvailableSitters");
+const getAvailableSitters = require("./queries/getAvailableSitters");
 
 
 //------------------------------------------------------------------------------
