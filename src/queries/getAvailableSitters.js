@@ -2,9 +2,15 @@
 
 let sitterCRUD = require("./sittersCRUD");
 let resCRUD = require("./reserveCRUD");
-
+let validator = require("./validationUtil")
 
 module.exports = function getAvailableSitters(startHr,endHr,cb) {
+
+    if(!validator.isTime(startHr)||!validator.isTime(endHr))
+        return cb(new Error("invalid argument(s) , does not represent a valid time."))
+
+    if(startHr >= endHr)
+        return cb(new Error("start time cannot be equal to or come after the end time"))
 
     let returnArr;
     sitterCRUD.readAll((err,res)=>

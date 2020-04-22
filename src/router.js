@@ -26,6 +26,8 @@ const router = (request, response) => {
             handlers.getSittersHandler(request,response);
         else if(endPoint === "/availableSitters")
             handlers.getAvailableSitter(request,response)
+        else
+            handlers.notFoundHandler(response);
 
     }
 
@@ -35,11 +37,12 @@ const router = (request, response) => {
             handlers.askreservationHandler(request, response)
         else if(endPoint === "/sitters")
             handlers.addSitterHandler(request,response);
-
+        else
+            handlers.notFoundHandler(response);
     }
 
 
-    else handlers.notFoundHandler(request,response);
+    else handlers.notFoundHandler(response);
 
 
 }

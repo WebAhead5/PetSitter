@@ -135,7 +135,7 @@ exports.getAvailableSitter = function (request,response) {
     //get params from url
     let { searchParams } = new urlR.URL(request.url, "http://localhost/")
 
-    let paramOptions = ["start","end"]
+    let paramOptions = ["start","end"];
     //if the url contains only the params "start" and "end"
     for (const key of searchParams.keys())
         if(!paramOptions.includes(key))
@@ -151,8 +151,8 @@ exports.getAvailableSitter = function (request,response) {
         if(err)
             return exports.serverErrorHandler(response);
 
-        response.writeHead(200,{"content-type":"application.json"});
-        response.end(JSON.stringify(res))
+        response.writeHead(200,{"content-type":"application/json"});
+        response.end(JSON.stringify(res||[]))
     })
 }
 
