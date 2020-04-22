@@ -45,14 +45,8 @@ exports.serverErrorHandler = function (response) {
 //the GET method
 // Gets the reservations data from the database
 exports.getreservationHandler = (request, response) => {
-    reserveCRUD.readAll((err, res) => {
-        if (err) {
-            exports.serverErrorHandler(response)
-        } else {
-            response.writeHead(200, { 'Content-Type': 'Application/JSON' });
-            response.end(JSON.stringify(res));
-        }
-    });
+    getReadFromDbHandler(request, response,reserveCRUD) 
+
 }
 
 
@@ -61,7 +55,7 @@ exports.getreservationHandler = (request, response) => {
 //Adds received information to the database
 
 exports.askreservationHandler = (request, response) => {
-   
+
     let data = '';
 
     request.on('data', chunk => {
@@ -73,43 +67,27 @@ exports.askreservationHandler = (request, response) => {
         let jsonObj = JSON.parse(data);
 
         //validate input
-        if(!reserveCRUD.isInputValid(jsonObj)){
-            return exports.badRequestHandler( response)
+        if (!reserveCRUD.isInputValid(jsonObj)) {
+            return exports.badRequestHandler(response)
         }
 
         reserveCRUD.create(jsonObj, (err, result) => {
             if (err)
-                return exports.badRequestHandler( response)
+                return exports.badRequestHandler(response)
 
             //todo redirection
-            response.writeHead(200)
-            response.end();
+                response.writeHead(308, { Location: '/index.html' })
+                response.end();
 
         })
     })
-    
+
 }
 
 exports.getSittersHandler = function (request, response) {
 
-    //get params from url
-    let { searchParams } = new urlR.URL(request.url, "http://localhost/")
+     getReadFromDbHandler(request, response,sittersCRUD) 
 
-    //set the read function
-    let readFunc = getReadSittersFunc(searchParams,sittersCRUD);
-
-    if(!readFunc)
-        return exports.badRequestHandler(response)
-
-
-    readFunc((err,result)=>{
-
-        if (err)
-            return exports.serverErrorHandler(request, response);
-
-        response.writeHead(200, { "content-type": "application/json" })
-        response.end(JSON.stringify(result));
-    });
 
 }
 
@@ -125,7 +103,7 @@ exports.addSitterHandler = function (request, response) {
 
     //when all the data is received
 
-    request.on("end",  () => {
+    request.on("end", () => {
 
 
         //convert the data to a json file
@@ -136,7 +114,7 @@ exports.addSitterHandler = function (request, response) {
 
             //if for some reason adding the data failed
             if (err)
-                return exports.badRequestHandler( response)
+                return exports.badRequestHandler(response)
 
 
             //todo - redirect user
@@ -171,25 +149,48 @@ function loadFile(path, response) {
 
 
 
+function getReadFromDbHandler(request, response,crud) {
 
-function getReadSittersFunc(searchParams,crud) {
+    //get params from url
+    let { searchParams } = new urlR.URL(request.url, "http://localhost/")
+
+    //set the read function
+    let readFunc = getReadSittersFunc(searchParams, crud);
+
+    if (!readFunc)
+        return exports.badRequestHandler(response)
+
+
+    readFunc((err, result) => {
+
+        if (err)
+            return exports.serverErrorHandler(request, response);
+
+        response.writeHead(200, { "content-type": "application/json" })
+        response.end(JSON.stringify(result));
+    });
+
+}
+
+
+function getReadSittersFunc(searchParams, crud) {
 
     //count the number of params in the url
     let paramCount = 0;
-    for(const pair of searchParams)
+    for (const pair of searchParams)
         paramCount++
 
 
-    if(paramCount === 0)
+    if (paramCount === 0)
         return crud.readAll;
 
 
-    if(paramCount === 1){
+    if (paramCount === 1) {
         let count = parseInt(searchParams.get("count"));
         if (!count || typeof count !== "number")
             return null;
 
-        return  (cb)=> crud.read(count,0,cb)
+        return (cb) => crud.read(count, 0, cb)
     }
 
 
@@ -207,7 +208,7 @@ function getReadSittersFunc(searchParams,crud) {
             return null;
 
 
-        return (cb)=> crud.read(count,offset,cb)
+        return (cb) => crud.read(count, offset, cb)
 
     }
 
