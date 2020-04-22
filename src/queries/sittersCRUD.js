@@ -22,7 +22,7 @@ exports.count = function(cb){
 
     let sqlC = `select count(*) from sitters;`
     dbConnection.query(sqlC,
-        (err,res)=> { if(cb) cb(err ,res?res.rows:undefined)})
+        (err,res)=> { if(cb) cb(err ,res?res.rows[0].count:undefined)})
 }
 
 
