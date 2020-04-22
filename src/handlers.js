@@ -99,7 +99,7 @@ exports.getSittersHandler = function(request, response) {
     let {searchParams} = new urlR.URL( request.url,"http://localhost/")
 
     //set the read function
-    let readFunc = sittersCRUD.readAll;
+    let readFunc = getReadSittersFunc(searchParams);
 
 
     readFunc((err,result)=>{
@@ -173,32 +173,43 @@ function loadFile(path ,response){
 
 
 function getReadSittersFunc(searchParams) {
-    let readFunc = sittersCRUD.readAll;
-    if(searchParams !== 0){
 
-        readFunc =  sittersCRUD.read;
-
-        //check of the count is valid
-        let count = searchParams.get("count") ;
-        if(count)
-            if(typeof count === "number")
-                readFunc = readFunc.bind(count);
-            else
-                return badRequestHandler(request,response);
+    //count the number of params in the url
+    let paramCount = 0;
+    for(const pair of searchParams)
+        paramCount++
 
 
+    if(paramCount === 0)
+        return sittersCRUD.readAll;
 
-        //check of the count is valid
-        let offset = searchParams.get("offset") ;
-        if(offset)
-            if(typeof offset === "number")
-                readFunc = readFunc.bind(offset);
-            else
-                return badRequestHandler(request,response);
 
+    if(paramCount === 1){
+        let count = parseInt(searchParams.get("count"));
+        if (!count || typeof count !== "number")
+            return null;
+
+        return  sittersCRUD.read.bind(sittersCRUD,count,undefined);
+    }
+
+
+    else if (paramCount === 2) {
+
+
+        let count = parseInt(searchParams.get("count"));
+        let offset = parseInt(searchParams.get("offset"));
+
+        if (!count || !offset)
+            return null;
+
+        if (typeof count !== "number" && typeof offset !== "number")
+            return null;
+
+        return sittersCRUD.read.bind(sittersCRUD,count,offset);
 
     }
 
+    return null;
 }
 
 
