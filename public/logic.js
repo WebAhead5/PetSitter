@@ -1,6 +1,6 @@
 
 const logic =
-    {
+{
 
     getAllReservations:
         function (cb) {
@@ -36,7 +36,7 @@ const logic =
 
             fetch(`/reservations`, {
                 method: "post",
-                headers: {"content-type": "application/json"},
+                headers: { "content-type": "application/json" },
                 body: JSON.stringify(dataObj)
             })
                 .catch(err => cb(err));
@@ -71,7 +71,7 @@ const logic =
 
             fetch('/sitters', {
                 method: "POST",
-                headers: {"content-type": "application/json"},
+                headers: { "content-type": "application/json" },
                 body: JSON.stringify(sitterObj)
             })
                 .catch(err => cb(err));
