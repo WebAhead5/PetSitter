@@ -187,7 +187,7 @@ function getReadFromDbHandler(request, response,crud) {
     readFunc((err, result) => {
 
         if (err)
-            return exports.serverErrorHandler(request, response);
+            return exports.serverErrorHandler(response);
 
         response.writeHead(200, { "content-type": "application/json" })
         response.end(JSON.stringify(result));
