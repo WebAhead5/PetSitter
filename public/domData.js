@@ -38,8 +38,7 @@ function displayData(){
         let info = "";
          res.forEach(obj => {
             if(obj.id == clickedID){
-                alert(clickedID);
-               logic.addReservation(name.value, phone.value, hoursFrom.value, hoursTo.value, obj.id, (e) => {
+               logic.addReservation(name.value, phone.value,convertTimeToHours (hoursFrom.value),convertTimeToHours (hoursTo.value), obj.id, (e) => {
                 if(e) {
                     toTheBox.boxMsg("Error...", "#5a7233", "#3e4f24", "20px");   
                 } else { 
@@ -81,12 +80,16 @@ function setTime(container,startTime = new Date(Date.now()) ){
     while(startTime.getHours() !== 0){
 
         let option = document.createElement("option");
-        option.textContent =
-            `${startTime.getHours()}:${startTime.getMinutes()}${startTime.getMinutes() === 0 ? "0":""}`
+        option.textContent = convertTimeToHours(startTime.getTime().toString())
         option.value =  startTime.getTime().toString();
         container.appendChild(option)
         startTime.setMinutes(startTime.getMinutes() + 30)
     }
 
 
+}
+
+function convertTimeToHours(time){
+    let startTime = new Date(parseInt(time))
+    return `${startTime.getHours()}:${startTime.getMinutes()}${startTime.getMinutes() === 0 ? "0":""}`
 }

@@ -66,11 +66,6 @@ exports.askreservationHandler = (request, response) => {
     request.on('end', () => {
         let jsonObj = JSON.parse(data);
 
-        //validate input
-        if (!reserveCRUD.isInputValid(jsonObj)) {
-            return exports.badRequestHandler(response)
-        }
-
         reserveCRUD.create(jsonObj, (err, result) => {
             if (err)
                 return exports.badRequestHandler(response)
