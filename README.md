@@ -49,7 +49,7 @@ our initial concept was to build an app similar to the concept art below:
 
 ## Final Product
 
-![](https://i.imgur.com/QFUOwpp.jpg)
+![](https://i.imgur.com/xlApzoW.jpg)
 
 Here is the final product, we can gladly say that it is very similar to the concept 
 
