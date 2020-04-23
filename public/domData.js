@@ -56,3 +56,37 @@ function displayData(){
 }
 
 
+
+setTime(hoursFrom)
+hoursFrom.onchange= (e)=>{
+
+    let selectedDate = new Date(parseInt(hoursFrom.value));
+    hoursTo.innerHTML="";
+    setTime(hoursTo,selectedDate)
+}
+function setTime(container,startTime = new Date(Date.now()) ){
+
+
+    let currentHour= startTime.getHours();
+
+    if(startTime.getMinutes() >= 30)
+    {
+        startTime.setMinutes(0)
+        startTime.setHours(currentHour + 1)
+    }
+    else{
+        startTime.setMinutes(30)
+    }
+
+    while(startTime.getHours() !== 0){
+
+        let option = document.createElement("option");
+        option.textContent =
+            `${startTime.getHours()}:${startTime.getMinutes()}${startTime.getMinutes() === 0 ? "0":""}`
+        option.value =  startTime.getTime().toString();
+        container.appendChild(option)
+        startTime.setMinutes(startTime.getMinutes() + 30)
+    }
+
+
+}

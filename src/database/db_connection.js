@@ -10,7 +10,7 @@ if(process.env.NODE_ENV === "test")
 
 
 if(!connectionString)
-throw new Error('Env variable DB_URL must be set');
+    throw new Error('Env variable DB_URL must be set');
 
 
 const params = url.parse(connectionString);
