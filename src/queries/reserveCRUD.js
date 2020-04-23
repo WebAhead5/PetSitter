@@ -83,22 +83,6 @@ const deleteReservations = (index,cb) => {
 }
 
 
-// isInputValid
-
-function isInputValid(obj = {}) {
-    // if (typeof obj.name !== 'string') {
-    //     return false;
-    // } else if (typeof obj.phone !== 'string') {
-    //     return false;
-    // } else {
-    //     return true;
-    // }
-
-    return true;
-
-}
-
-//added to the handlers.askreserve...
 
 
 
