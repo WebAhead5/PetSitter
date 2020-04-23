@@ -1,5 +1,3 @@
-//use javascript to fill hours here
-
 
 //passing values to sitters table
 function formVerification(){
@@ -9,7 +7,7 @@ function formVerification(){
     const cost = document.getElementById('cost');
     const phone = document.getElementById('phoneNumber');
      
-    logic.addSitters(name.value, hoursFrom.value, hoursTo.value, phone.value, (e) => {
+    logic.addSitters(name.value, hoursFrom.value, hoursTo.value, cost.value, (e) => {
         toTheBox.boxMsg("Your info were added successfully", "#5a7233", "#3e4f24", "20px");
     });
 }
@@ -20,10 +18,4 @@ function formVerification(){
     formVerification();
 })
 
- const search = document.getElementById('searchForm');
-    search.addEventListener('submit', (e) => {
-    e.preventDefault();
-        alert("search...");
-    
-    //formVerification();
-})
+

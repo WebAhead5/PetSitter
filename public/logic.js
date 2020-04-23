@@ -37,6 +37,7 @@ const logic =
                 headers: {"content-type": "application/json"},
                 body: JSON.stringify(dataObj)
             })
+                .then(() => cb(null))
                 .catch(err => cb(err));
 
         },
