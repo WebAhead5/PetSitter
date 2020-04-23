@@ -32,9 +32,9 @@
     "tape": "^4.13.2"
   },
   "dependencies": {
-    "mime-types": "^2.1.26",
-    "pg": "^8.0.3",
     "dotenv": "^8.2.0",
-    "nodemon": "^2.0.3"
+    "mime-types": "^2.1.26",
+    "nodemon": "^2.0.3",
+    "pg": "^8.0.3"
   }
 }

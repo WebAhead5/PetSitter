@@ -2,16 +2,16 @@
 
 ## Contents
 - [Task](#Task)
-- [ ] [Introduction](#introduction)
+- [Introduction](#introduction)
 - [Initial Concept](#Initial-Concept)
-- [ ] [Final Product](#)
+- [Final Product](#)
 - [Code Structure](#Code-Structure)
     - [SQL CRUD Guidelines](#SQL-CRUD-Guidelines)
     - [server route paths](#server-route-paths)
     - [Front-end Logic Stricture](#front-end-logic-Stricture)
 - [Work Splitting](#Work-Splitting)
 - [Difficulties](#Difficulties)
-- [ ] [Credits](#)
+- [Credits](#)
 
 
 # Task
@@ -48,6 +48,9 @@ our initial concept was to build an app similar to the concept art below:
 --------------------------
 
 ## Final Product
+
+![](https://i.imgur.com/QFUOwpp.jpg)
+
 Here is the final product, we can gladly say that it is very similar to the concept 
 
 - Intoduction page
@@ -55,7 +58,11 @@ Here is the final product, we can gladly say that it is very similar to the conc
 - Sitter registration page
      - this page includes details for the sitter that he needs to enter, in order to register and be shown on the list of sitters on out app.
 - Search for a sitter as a user
-     - The user enters his name and the cost of 
+     - The user enters his name and his phone number and clicks the Search button
+     - this leads the user to the next page - the result page
+- Search result page
+     - the user will browse through list of sitters which he can reserve
+     - by hitting the reserve button, the sitter won't be availabe for these hours in the next search
 
 --------------------------
 
@@ -280,3 +287,7 @@ to name a few:
 
 https://hackmd.io/zTqnvGRaQDSIadxALDIFjQ?both
 https://hackmd.io/@qkHgX7jGSCC3bWyVhIsGgQ/BJC4WrRuU/edit
+
+## Credits
+
+Special Thanks to everyone who worked on this project and put efforts, and to all our WebAhead5 mentors!!
