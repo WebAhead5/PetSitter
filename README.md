@@ -2,16 +2,16 @@
 
 ## Contents
 - [Task](#Task)
-- [ ] [Introduction](#introduction)
+- [Introduction](#introduction)
 - [Initial Concept](#Initial-Concept)
-- [ ] [Final Product](#)
+- [Final Product](#)
 - [Code Structure](#Code-Structure)
     - [SQL CRUD Guidelines](#SQL-CRUD-Guidelines)
     - [server route paths](#server-route-paths)
     - [Front-end Logic Stricture](#front-end-logic-Stricture)
 - [Work Splitting](#Work-Splitting)
 - [Difficulties](#Difficulties)
-- [ ] [Credits](#)
+- [Credits](#)
 
 
 # Task
@@ -19,7 +19,12 @@ Our goal this week was to build a website associated with database and all the w
 
 ## introduction
 
-One of the main Project aims was to build a website that includes all the materials we learned until now, from front-end until the database. Second we we wanted to make sure that every one from the team members work on everything and split up the work according to that we will talk about that in next sections as well.
+One of the main Project aims was to build a website that includes all the materials we've learned until now, from front-end until the database. Second we we wanted to make sure that every one from the team members work on everything and split up the work according to that we will talk about that in next sections as well. 
+
+The first idea behind this project is to make an app that can help people find jobs as pet sitters, which could be very helpful for students and freelancers, since it's not a fullday job and the sitter can register daily for his available hours that day.
+Second, is to make it easier for pet owners to find a sitter for them when they need it!!!
+
+The app is very easy to use, no registeration needed for the users, they just have to enter their name and phone number, and then they can start searching for sitters, when they find one they can ask for reserve, and that will send an email for the sitter so he or she can contact their potential customer.
 
 
 ## Initial Concept
@@ -35,13 +40,29 @@ our initial concept was to build an app similar to the concept art below:
      - here the user specifies is details, availability hours and the cost he asks for 
  - "enter as a user" 
      - leads the user to the "search page for sitter"
-     - here the user enter his credentials and the hours servicec hours he's seeking
+     - here the user enter his credentials and the hours he's seeking
  - the search result page
      - here the user recieves a list of the sitters he can reserve
      - by hitting the reserve button, the sitter won't be availabe for these hours in the next search
 
+--------------------------
 
+## Final Product
 
+![](https://i.imgur.com/xlApzoW.jpg)
+
+Here is the final product, we can gladly say that it is very similar to the concept 
+
+- Intoduction page
+     - here the guest can either register as a sitter or start searching for a sitter
+- Sitter registration page
+     - this page includes details for the sitter that he needs to enter, in order to register and be shown on the list of sitters on out app.
+- Search for a sitter as a user
+     - The user enters his name and his phone number and clicks the Search button
+     - this leads the user to the next page - the result page
+- Search result page
+     - the user will browse through list of sitters which he can reserve
+     - by hitting the reserve button, the sitter won't be availabe for these hours in the next search
 
 --------------------------
 
@@ -266,3 +287,7 @@ to name a few:
 
 https://hackmd.io/zTqnvGRaQDSIadxALDIFjQ?both
 https://hackmd.io/@qkHgX7jGSCC3bWyVhIsGgQ/BJC4WrRuU/edit
+
+## Credits
+
+Special Thanks to everyone who worked on this project and put efforts, and to all our WebAhead5 mentors!!
