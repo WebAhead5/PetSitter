@@ -29,12 +29,12 @@
   "devDependencies": {
     "dotenv": "^8.2.0",
     "nodemon": "^2.0.3",
-    "pg": "^8.0.3",
     "supertest": "^4.0.2",
     "tap-spec": "^5.0.0",
     "tape": "^4.13.2"
   },
   "dependencies": {
-    "mime-types": "^2.1.26"
+    "mime-types": "^2.1.26",
+    "pg": "^8.0.3"
   }
 }
