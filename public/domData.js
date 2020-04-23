@@ -12,7 +12,10 @@ search.addEventListener('submit', (e) => {
     document.getElementById('note').style.visibility = "visible";
     document.getElementById('note').innerHTML = "Click on Sitter to make a reservation";
 })
-
+name.oninput=()=>{
+    console.log("test")
+    name.value = validateInput(name.value);
+}
 
 function displayData(){
     search.innerHTML='';
@@ -63,8 +66,14 @@ hoursFrom.onchange= (e)=>{
     hoursTo.innerHTML="";
     setTime(hoursTo,selectedDate)
 }
+setTime(hoursTo,hoursFrom.value)
+
+
+
 function setTime(container,startTime = new Date(Date.now()) ){
 
+    if(typeof startTime === "string")
+        startTime = new Date(parseInt(startTime))
 
     let currentHour= startTime.getHours();
 
@@ -80,7 +89,8 @@ function setTime(container,startTime = new Date(Date.now()) ){
     while(startTime.getHours() !== 0){
 
         let option = document.createElement("option");
-        option.textContent = convertTimeToHours(startTime.getTime().toString())
+        option.textContent =
+            `${startTime.getHours()}:${startTime.getMinutes()}${startTime.getMinutes() === 0 ? "0":""}`
         option.value =  startTime.getTime().toString();
         container.appendChild(option)
         startTime.setMinutes(startTime.getMinutes() + 30)
@@ -92,4 +102,17 @@ function setTime(container,startTime = new Date(Date.now()) ){
 function convertTimeToHours(time){
     let startTime = new Date(parseInt(time))
     return `${startTime.getHours()}:${startTime.getMinutes()}${startTime.getMinutes() === 0 ? "0":""}`
+}
+
+
+function validateInput(str) {
+
+    let regex = /[a-z ]/ig;
+
+    if (!str.match(regex))
+        str = "";
+    else str = str.match(regex).join("")
+
+    return str.trimStart() ;
+
 }

@@ -10,9 +10,12 @@ hoursFrom.onchange= (e)=>{
     hoursTo.innerHTML="";
     setTime(hoursTo,selectedDate)
 }
+setTime(hoursTo,hoursFrom.value)
 
 function setTime(container,startTime = new Date(Date.now()) ){
 
+    if(typeof startTime === "string")
+        startTime = new Date(parseInt(startTime))
 
     let currentHour= startTime.getHours();
 
@@ -62,5 +65,4 @@ form.addEventListener('submit', (e) => {
     e.preventDefault();
     formVerification();
 })
-
 
