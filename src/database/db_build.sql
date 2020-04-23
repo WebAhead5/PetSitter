@@ -4,7 +4,9 @@ BEGIN;
 -- CREATE USER super WITH SUPERUSER PASSWORD '123';
 -- ALTER DATABASE project_db OWNER TO super;
 
+
 DROP TABLE IF EXISTS sitters,reservations CASCADE;
+
 
 CREATE TABLE sitters(
                         id SERIAL PRIMARY KEY,
@@ -13,6 +15,7 @@ CREATE TABLE sitters(
                         end_hour TIME NOT NULL,
                         cost INTEGER NOT NULL
 );
+
 
 CREATE TABLE reservations(
                             id SERIAL PRIMARY KEY,
@@ -27,12 +30,6 @@ CREATE TABLE reservations(
 
 
 INSERT INTO sitters (name,starting_hour, end_hour, cost)
--- VALUES('a', '7:00', '22:00', '50' ),
---     ('b', '13:30', '18:00', '50' ),
---     ('c', '11:30', '13:00', '50' ),
---     ('d', '12:00', '16:00', '50' ),
---     ('e', '16:30', '20:00', '50' ),
---     ('f', '7:30', '12:00', '50' );
 VALUES
        ('a', '7:00', '22:00', '50' ),
        ('b', '7:00', '22:00', '50' ),
@@ -43,8 +40,8 @@ VALUES
 
 
 INSERT INTO reservations (reservant_full_name, reservant_phone, starting_hour, end_hour,sitter_id)
-VALUES('Marwan Rizik', '050111111', '11:00', '13:00',2);
---('Marwan Rizik', '050111111', '11:00', '13:00',8);
+VALUES('Marwan Rizik', '050111111', '11:00', '13:00',2),
+ ('Marwan Rizik', '050111111', '11:00', '13:00',8);
 
 
 
