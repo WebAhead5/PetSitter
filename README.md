@@ -19,7 +19,8 @@ Our goal this week was to build a website associated with database and all the w
 
 ## introduction
 
-####### missing ###########
+One of the main Project aims was to build a website that includes all the materials we learned until now, from front-end until the database. Second we we wanted to make sure that every one from the team members work on everything and split up the work according to that we will talk about that in next sections as well.
+
 
 ## Initial Concept
 our initial concept was to build an app similar to the concept art below:
