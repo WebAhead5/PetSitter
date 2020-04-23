@@ -57,11 +57,11 @@ h2 {
 }
 form {
     position: relative;
-    width: 85%;
-    height: 70vh;
+    /*width: 85%;*/
+    /*height: 70vh;*/
+
     border-radius: 30px;
     background: #fff;
-    overflow: scroll;
 }
 .form-left-decoration,
 .form-right-decoration {
@@ -71,6 +71,7 @@ form {
     height: 20px;
     border-radius: 20px;
     background: #5a7233;
+    z-index: -1;
 }
 .form-left-decoration {
     bottom: 60px;
