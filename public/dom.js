@@ -31,7 +31,7 @@ name.oninput=()=>{
 
 function formVerification(){
 
-    logic.addSitters(name.value, hoursFrom.value, hoursTo.value, cost.value, (e) => {
+        logic.addSitters(name.value, convertTimeToHours(hoursFrom.value), convertTimeToHours(hoursTo.value), cost.value, (e) => {
         toTheBox.boxMsg("Your info were added successfully", "#5a7233", "#3e4f24", "20px");
     });
 }
@@ -78,3 +78,8 @@ function validateInput(str) {
     return str.trimStart() ;
 
 }
+function convertTimeToHours(time){
+    let startTime = new Date(parseInt(time))
+    return `${startTime.getHours()}:${startTime.getMinutes()}${startTime.getMinutes() === 0 ? "0":""}`
+}
+

@@ -23,7 +23,7 @@ function displayData(){
     title.innerHTML = "Name | Start Time | End Time | Cost per hour";
     title.style.marginBottom = "20px";
     search.appendChild(title);
-    logic.getAllSitters((e,res) => { 
+    logic.getAvailableSitter(convertTimeToHours(hoursFrom.value),convertTimeToHours(hoursTo.value),(e,res) => {
     res.forEach(obj => {
             console.log(res);
             //add search conditions

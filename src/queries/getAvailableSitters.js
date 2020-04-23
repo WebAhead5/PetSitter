@@ -18,9 +18,8 @@ module.exports = function getAvailableSitters(startHr,endHr,cb) {
         if(err)
             return cb(err)
 
-        returnArr = Array.from(res).filter(obj =>
-            obj["starting_hour"] <= startHr
-            && obj["end_hour"] >= endHr );
+        returnArr = Array.from(res).filter(sitter =>
+            (sitter["starting_hour"] <= startHr +":00" && sitter["end_hour"] >= endHr +":00" ) );
 
 
 
@@ -33,7 +32,7 @@ module.exports = function getAvailableSitters(startHr,endHr,cb) {
                 .filter(res=> returnArr.some(s=>s.id === res["sitter_id"]));
 
             reservations.forEach(res=>{
-                if(!( res["starting_hour"] >= endHr || res["end_hour"] < startHr))
+                if(!( res["starting_hour"] > endHr +":00" || res["end_hour"] <  startHr +":00"))
                     returnArr = returnArr.filter(t=>t.id !== res["sitter_id"])
             })
 
