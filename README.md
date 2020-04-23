@@ -14,6 +14,10 @@
 - [Credits](#)
 
 
+### Env variable
+Before you run the server localy, make sure to create .env file in the root directory and then:
+- DATABASE_URL = postgres://[username]:[password]@localhost:5432/[databasename]
+
 # Task
 Our goal this week was to build a website associated with database and all the work surrounding it.
 
