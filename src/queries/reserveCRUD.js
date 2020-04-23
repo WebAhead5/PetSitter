@@ -92,6 +92,5 @@ module.exports = {
     create: reserveSitter,
     count: CountReservations,
     delete: deleteReservations,
-    isInputValid,
     read
 }
