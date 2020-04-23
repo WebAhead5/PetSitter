@@ -14,7 +14,7 @@
     "type": "git",
     "url": "git+https://github.com/WebAhead5/PetSitter.git"
   },
-  "keywords": [],
+  "keywords": ["heroku"],
   "author": "",
   "license": "ISC",
   "bugs": {
