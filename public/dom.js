@@ -1,9 +1,13 @@
 //use javascript to fill hours here
-
+const name = document.getElementById('name');
 const hoursFrom = document.getElementById('from');
-setTime(hoursFrom)
-
 const hoursTo = document.getElementById('to');
+const cost = document.getElementById('cost');
+const phone = document.getElementById('phoneNumber');
+const form = document.getElementById('form');
+
+
+setTime(hoursFrom)
 hoursFrom.onchange= (e)=>{
 
     let selectedDate = new Date(parseInt(hoursFrom.value));
@@ -11,6 +15,29 @@ hoursFrom.onchange= (e)=>{
     setTime(hoursTo,selectedDate)
 }
 setTime(hoursTo,hoursFrom.value)
+
+
+
+
+
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    formVerification();
+})
+name.oninput=()=>{
+    console.log("test")
+    name.value = validateInput(name.value);
+}
+
+function formVerification(){
+
+    logic.addSitters(name.value, hoursFrom.value, hoursTo.value, cost.value, (e) => {
+        toTheBox.boxMsg("Your info were added successfully", "#5a7233", "#3e4f24", "20px");
+    });
+}
+
+
+
 
 function setTime(container,startTime = new Date(Date.now()) ){
 
@@ -40,29 +67,14 @@ function setTime(container,startTime = new Date(Date.now()) ){
 
 
 }
+function validateInput(str) {
 
+    let regex = /[a-z ]/ig;
 
+    if (!str.match(regex))
+        str = "";
+    else str = str.match(regex).join("")
 
+    return str.trimStart() ;
 
-
-
-
-//passing values to sitters table
-function formVerification(){
-    const name = document.getElementById('name');
-    const hoursFrom = document.getElementById('from');
-    const hoursTo = document.getElementById('to');
-    const cost = document.getElementById('cost');
-    const phone = document.getElementById('phoneNumber');
-
-    logic.addSitters(name.value, hoursFrom.value, hoursTo.value, cost.value, (e) => {
-        toTheBox.boxMsg("Your info were added successfully", "#5a7233", "#3e4f24", "20px");
-    });
 }
-
-const form = document.getElementById('form');
-form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    formVerification();
-})
-
