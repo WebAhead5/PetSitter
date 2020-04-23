@@ -29,7 +29,7 @@ function displayData(){
             //add search conditions
             recSpan = document.createElement('nav');
             recSpan.setAttribute('id', `${obj.id}`);
-            recSpan.innerHTML=`${obj.name} | ${obj.starting_hour} | ${obj.end_hour} | ${obj.cost}` + "$";
+            recSpan.innerHTML=`${obj.name} | ${obj.starting_hour} | ${obj.end_hour} | ${calculateCost(hoursFrom.value,hoursTo.value,obj.cost)}` + "$";
             search.appendChild(recSpan);
         
         
@@ -115,4 +115,18 @@ function validateInput(str) {
 
     return str.trimStart() ;
 
+}
+
+function calculateCost(startingHr,endHr,costPerHr) {
+
+    let [hr,min] = convertTimeToHours(startingHr).split(":")
+    hr = parseInt( hr)
+    min = parseInt(min)
+
+    let [hrAf,minAf] = convertTimeToHours(endHr).split(":")
+    hrAf = parseInt( hrAf)
+    minAf = parseInt(minAf)
+
+   let totalHrs= (hrAf-hr) + (minAf - min)/60;
+    return costPerHr * totalHrs
 }
