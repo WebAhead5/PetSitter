@@ -2,22 +2,24 @@
   "name": "pet-sitter",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./src/server.js",
   "scripts": {
     "dev": "nodemon src/server.js",
-    "start": "NODE_ENV=production node src/server.js",
-    "testServer": "NODE_ENV=test nodemon testers/server.test.js | tap-spec",
-    "testDB": "NODE_ENV=test nodemon testers/server.test.js | tap-spec",
+    "start": "node src/server.js",
+    "test": "NODE_ENV=test nodemon testers/**/*.test.js",
+    "test2": "NODE_ENV=test node src/queries/sittersCRUD.js",
     "build": "node ./src/database/db_build.js"
+  },
+  "engines": {
+    "node": "10.15.2"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/WebAhead5/PetSitter.git"
   },
-  "engines": {
-    "node": "10.16.0"
-  },
-  "keywords": ["heroku"],
+  "keywords": [
+    "heroku"
+  ],
   "author": "",
   "license": "ISC",
   "bugs": {
@@ -25,14 +27,14 @@
   },
   "homepage": "https://github.com/WebAhead5/PetSitter#readme",
   "devDependencies": {
-    "mime-types": "^2.1.26",
-    "nodemon": "^2.0.3",
     "supertest": "^4.0.2",
     "tap-spec": "^5.0.0",
     "tape": "^4.13.2"
   },
   "dependencies": {
+    "mime-types": "^2.1.26",
+    "pg": "^8.0.3",
     "dotenv": "^8.2.0",
-    "pg": "^8.0.2"
+    "nodemon": "^2.0.3"
   }
 }
